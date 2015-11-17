@@ -239,117 +239,70 @@ public class DeviceActivityBroadcastReceiver extends BroadcastReceiver {
                     });
                     Log.d("DeviceActivity", "Configuring service with uuid : " + s.getUuid().toString());
                     if (SensorTagHumidityProfile.isCorrectService(s)) {
-                        SensorTagHumidityProfile hum = new SensorTagHumidityProfile(context, deviceActivity.mBluetoothDevice, s, deviceActivity.mBtLeService);
-                        deviceActivity.mProfiles.add(hum);
-                        if (nrNotificationsOn < maxNotifications) {
-                            hum.configureService();
-                            nrNotificationsOn++;
-                        } else {
-                            hum.grayOutCell(true);
-                        }
+                        GenericBluetoothProfile profile = new SensorTagHumidityProfile(context, deviceActivity.mBluetoothDevice, s, deviceActivity.mBtLeService);
+                        nrNotificationsOn = addProfile(nrNotificationsOn, maxNotifications, profile);
                         Log.d("DeviceActivity", "Found Humidity !");
                     }
                     if (SensorTagLuxometerProfile.isCorrectService(s)) {
-                        SensorTagLuxometerProfile lux = new SensorTagLuxometerProfile(context, deviceActivity.mBluetoothDevice, s,deviceActivity. mBtLeService);
-                        deviceActivity.mProfiles.add(lux);
-                        if (nrNotificationsOn < maxNotifications) {
-                            lux.configureService();
-                            nrNotificationsOn++;
-                        } else {
-                            lux.grayOutCell(true);
-                        }
+                        GenericBluetoothProfile profile = new SensorTagLuxometerProfile(context, deviceActivity.mBluetoothDevice, s,deviceActivity. mBtLeService);
+                        nrNotificationsOn = addProfile(nrNotificationsOn, maxNotifications, profile);
+                        Log.d("DeviceActivity", "Found Luxometer !");
                     }
                     if (SensorTagSimpleKeysProfile.isCorrectService(s)) {
-                        SensorTagSimpleKeysProfile key = new SensorTagSimpleKeysProfile(context, deviceActivity.mBluetoothDevice, s, deviceActivity.mBtLeService);
-                        deviceActivity.mProfiles.add(key);
-                        if (nrNotificationsOn < maxNotifications) {
-                            key.configureService();
-                            nrNotificationsOn++;
-                        } else {
-                            key.grayOutCell(true);
-                        }
+                        GenericBluetoothProfile profile = new SensorTagSimpleKeysProfile(context, deviceActivity.mBluetoothDevice, s, deviceActivity.mBtLeService);
+                        nrNotificationsOn = addProfile(nrNotificationsOn, maxNotifications, profile);
                         Log.d("DeviceActivity", "Found Simple Keys !");
                     }
                     if (SensorTagBarometerProfile.isCorrectService(s)) {
-                        SensorTagBarometerProfile baro = new SensorTagBarometerProfile(context, deviceActivity.mBluetoothDevice, s, deviceActivity.mBtLeService);
-                        deviceActivity.mProfiles.add(baro);
-                        if (nrNotificationsOn < maxNotifications) {
-                            baro.configureService();
-                            nrNotificationsOn++;
-                        } else {
-                            baro.grayOutCell(true);
-                        }
+                        GenericBluetoothProfile profile = new SensorTagBarometerProfile(context, deviceActivity.mBluetoothDevice, s, deviceActivity.mBtLeService);
+                        nrNotificationsOn = addProfile(nrNotificationsOn, maxNotifications, profile);
                         Log.d("DeviceActivity", "Found Barometer !");
                     }
                     if (SensorTagAmbientTemperatureProfile.isCorrectService(s)) {
-                        SensorTagAmbientTemperatureProfile irTemp = new SensorTagAmbientTemperatureProfile(context, deviceActivity.mBluetoothDevice, s, deviceActivity.mBtLeService);
-                        deviceActivity.mProfiles.add(irTemp);
-                        if (nrNotificationsOn < maxNotifications) {
-                            irTemp.configureService();
-                            nrNotificationsOn++;
-                        } else {
-                            irTemp.grayOutCell(true);
-                        }
+                        GenericBluetoothProfile profile = new SensorTagAmbientTemperatureProfile(context, deviceActivity.mBluetoothDevice, s, deviceActivity.mBtLeService);
+                        nrNotificationsOn = addProfile(nrNotificationsOn, maxNotifications, profile);
                         Log.d("DeviceActivity", "Found Ambient Temperature !");
                     }
                     if (SensorTagIRTemperatureProfile.isCorrectService(s)) {
-                        SensorTagIRTemperatureProfile irTemp = new SensorTagIRTemperatureProfile(context, deviceActivity.mBluetoothDevice, s, deviceActivity.mBtLeService);
-                        deviceActivity.mProfiles.add(irTemp);
+                        GenericBluetoothProfile profile = new SensorTagIRTemperatureProfile(context, deviceActivity.mBluetoothDevice, s, deviceActivity.mBtLeService);
+                        deviceActivity.mProfiles.add(profile);
                         if (nrNotificationsOn < maxNotifications) {
-                            irTemp.configureService();
+                            profile.configureService();
                         } else {
-                            irTemp.grayOutCell(true);
+                            profile.grayOutCell(true);
                         }
 //No notifications add here because it is already enabled above ..
                         Log.d("DeviceActivity", "Found IR Temperature !");
                     }
                     if (SensorTagMovementProfile.isCorrectService(s)) {
-                        SensorTagMovementProfile mov = new SensorTagMovementProfile(context, deviceActivity.mBluetoothDevice, s, deviceActivity.mBtLeService);
-                        deviceActivity.mProfiles.add(mov);
-                        if (nrNotificationsOn < maxNotifications) {
-                            mov.configureService();
-                            nrNotificationsOn++;
-                        } else {
-                            mov.grayOutCell(true);
-                        }
+                        GenericBluetoothProfile profile = new SensorTagMovementProfile(context, deviceActivity.mBluetoothDevice, s, deviceActivity.mBtLeService);
+                        nrNotificationsOn = addProfile(nrNotificationsOn, maxNotifications, profile);
                         Log.d("DeviceActivity", "Found Motion !");
                     }
 
 
                     if (SensorTagGyroscopeProfile.isCorrectService(s)) {
-                        SensorTagGyroscopeProfile gyro = new SensorTagGyroscopeProfile(context, deviceActivity.mBluetoothDevice, s, deviceActivity.mBtLeService);
-                        deviceActivity.mProfiles.add(gyro);
-                        if (nrNotificationsOn < maxNotifications) {
-                            gyro.configureService();
-                            nrNotificationsOn++;
-                        } else {
-                            gyro.grayOutCell(true);
-                        }
-                        Log.d("DeviceActivity", "Found Motion !");
+                        GenericBluetoothProfile profile = new SensorTagGyroscopeProfile(context, deviceActivity.mBluetoothDevice, s, deviceActivity.mBtLeService);
+                        nrNotificationsOn = addProfile(nrNotificationsOn, maxNotifications, profile);
+                        Log.d("DeviceActivity", "Found Gyroscope !");
 
                     }
                     if (SensorTagAccelerometerProfile.isCorrectService(s)) {
-                        SensorTagAccelerometerProfile acc = new SensorTagAccelerometerProfile(context, deviceActivity.mBluetoothDevice, s, deviceActivity.mBtLeService);
-                        deviceActivity.mProfiles.add(acc);
-                        if (nrNotificationsOn < maxNotifications) {
-                            acc.configureService();
-                            nrNotificationsOn++;
-                        } else {
-                            acc.grayOutCell(true);
-                        }
-                        Log.d("DeviceActivity", "Found Motion !");
+                        GenericBluetoothProfile profile = new SensorTagAccelerometerProfile(context, deviceActivity.mBluetoothDevice, s, deviceActivity.mBtLeService);
+                        nrNotificationsOn = addProfile(nrNotificationsOn, maxNotifications, profile);
+                        Log.d("DeviceActivity", "Found Accelerometer !");
 
                     }
                     if (DeviceInformationServiceProfile.isCorrectService(s)) {
-                        DeviceInformationServiceProfile devInfo = new DeviceInformationServiceProfile(context, deviceActivity.mBluetoothDevice, s, deviceActivity.mBtLeService);
-                        deviceActivity.mProfiles.add(devInfo);
-                        devInfo.configureService();
+                        GenericBluetoothProfile profile = new DeviceInformationServiceProfile(context, deviceActivity.mBluetoothDevice, s, deviceActivity.mBtLeService);
+                        deviceActivity.mProfiles.add(profile);
+                        profile.configureService();
                         Log.d("DeviceActivity", "Found Device Information Service");
                     }
                     if (TIOADProfile.isCorrectService(s)) {
-                        TIOADProfile oad = new TIOADProfile(context, deviceActivity.mBluetoothDevice, s, deviceActivity.mBtLeService);
-                        deviceActivity.mProfiles.add(oad);
-                        oad.configureService();
+                        GenericBluetoothProfile profile = new TIOADProfile(context, deviceActivity.mBluetoothDevice, s, deviceActivity.mBtLeService);
+                        deviceActivity.mProfiles.add(profile);
+                        profile.configureService();
                         deviceActivity.mOadService = s;
                         Log.d("DeviceActivity", "Found TI OAD Service");
                     }
@@ -387,5 +340,16 @@ public class DeviceActivityBroadcastReceiver extends BroadcastReceiver {
             }
         });
         worker.start();
+    }
+
+    private int addProfile(int nrNotificationsOn, int maxNotifications, GenericBluetoothProfile profile) {
+        deviceActivity.mProfiles.add(profile);
+        if (nrNotificationsOn < maxNotifications) {
+            profile.configureService();
+            nrNotificationsOn++;
+        } else {
+            profile.grayOutCell(true);
+        }
+        return nrNotificationsOn;
     }
 }
