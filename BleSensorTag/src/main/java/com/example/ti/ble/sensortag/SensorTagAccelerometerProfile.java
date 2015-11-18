@@ -54,6 +54,7 @@
  **************************************************************************************************/
 package com.example.ti.ble.sensortag;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -118,9 +119,11 @@ public class SensorTagAccelerometerProfile extends GenericBluetoothProfile {
 	
 	public static boolean isCorrectService(BluetoothGattService service) {
 		if ((service.getUuid().toString().compareTo(SensorTagGatt.UUID_ACC_SERV.toString())) == 0) {
+            Log.d("DeviceActivity", "Found Accelerometer !");
 			return true;
-		}
-		else return false;
+		} else {
+            return false;
+        }
 	}
     @Override
 	public void didUpdateValueForCharacteristic(BluetoothGattCharacteristic c) {
@@ -140,5 +143,10 @@ public class SensorTagAccelerometerProfile extends GenericBluetoothProfile {
         map.put("acc_y",String.format("%.2f",v.y));
         map.put("acc_z",String.format("%.2f",v.z));
         return map;
+    }
+
+    public AccelerometerReading getReading() {
+        Point3D p = Sensor.ACCELEROMETER.convert(this.dataC.getValue());
+        return new AccelerometerReading(new Date(), p);
     }
 }

@@ -1,57 +1,3 @@
-/**************************************************************************************************
- Filename:       IBMIoTCloudProfile.java
- Revised:        $Date: Wed Apr 22 13:01:34 2015 +0200$
- Revision:       $Revision: 599e5650a33a4a142d060c959561f9e9b0d88146$
-
- Copyright (c) 2013 - 2015 Texas Instruments Incorporated
-
- All rights reserved not granted herein.
- Limited License.
-
- Texas Instruments Incorporated grants a world-wide, royalty-free,
- non-exclusive license under copyrights and patents it now or hereafter
- owns or controls to make, have made, use, import, offer to sell and sell ("Utilize")
- this software subject to the terms herein.  With respect to the foregoing patent
- license, such license is granted  solely to the extent that any such patent is necessary
- to Utilize the software alone.  The patent license shall not apply to any combinations which
- include this software, other than combinations with devices manufactured by or for TI ('TI Devices').
- No hardware patent is licensed hereunder.
-
- Redistributions must preserve existing copyright notices and reproduce this license (including the
- above copyright notice and the disclaimer and (if applicable) source code license limitations below)
- in the documentation and/or other materials provided with the distribution
-
- Redistribution and use in binary form, without modification, are permitted provided that the following
- conditions are met:
-
- * No reverse engineering, decompilation, or disassembly of this software is permitted with respect to any
- software provided in binary form.
- * any redistribution and use are licensed by TI for use only with TI Devices.
- * Nothing shall obligate TI to provide you with source code for the software licensed and provided to you in object code.
-
- If software source code is provided to you, modification and redistribution of the source code are permitted
- provided that the following conditions are met:
-
- * any redistribution and use of the source code, including any resulting derivative works, are licensed by
- TI for use only with TI Devices.
- * any redistribution and use of any object code compiled from the source code and any resulting derivative
- works, are licensed by TI for use only with TI Devices.
-
- Neither the name of Texas Instruments Incorporated nor the names of its suppliers may be used to endorse or
- promote products derived from this software without specific prior written permission.
-
- DISCLAIMER.
-
- THIS SOFTWARE IS PROVIDED BY TI AND TI'S LICENSORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING,
- BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
- IN NO EVENT SHALL TI AND TI'S LICENSORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA,
- OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
- OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
- POSSIBILITY OF SUCH DAMAGE.
-
-
- **************************************************************************************************/
 package com.example.ti.ble.common;
 
 import android.app.Activity;
@@ -68,30 +14,32 @@ import android.util.Log;
 import android.view.View;
 import android.widget.CompoundButton;
 
+import com.example.ti.ble.sensortag.AccelerometerReading;
 import com.example.ti.ble.sensortag.R;
+import com.google.gson.Gson;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.SyncHttpClient;
 
-import org.eclipse.paho.client.mqttv3.IMqttActionListener;
-import org.eclipse.paho.client.mqttv3.IMqttToken;
-import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
-import org.eclipse.paho.client.mqttv3.MqttMessage;
-import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
-
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import cz.msebera.android.httpclient.Header;
+import cz.msebera.android.httpclient.entity.StringEntity;
+
 public class AzureIoTCloudProfile extends GenericBluetoothProfile {
-    final String startString = "{\n \"d\":{\n";
-    final String stopString = "\n}\n}";
     AzureEventBusClient client;
-    MemoryPersistence memPer;
     final String addrShort;
     static AzureIoTCloudProfile mThis;
     Map<String, String> valueMap = new HashMap<String, String>();
-    Timer publishTimer;
+    List<AccelerometerReading> valueList = Collections.synchronizedList(new ArrayList<AccelerometerReading>());
     public boolean ready;
-    private WakeLock wakeLock;
+    private Timer publishTimer;
     BroadcastReceiver cloudConfigUpdateReceiver;
     cloudConfig config;
 
@@ -139,7 +87,6 @@ public class AzureIoTCloudProfile extends GenericBluetoothProfile {
             }
         });
 
-
         tmpRow.configureCloud.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -151,15 +98,6 @@ public class AzureIoTCloudProfile extends GenericBluetoothProfile {
 
               }
         });
-
-
-        /*
-        String url = "https://quickstart.internetofthings.ibmcloud.com/#/device/" + addrShort + "/sensor/";
-
-        Pattern pattern = Pattern.compile(url);
-        Linkify.addLinks(((IBMIoTCloudTableRow) this.tRow).cloudURL, pattern, "https://");
-        ((IBMIoTCloudTableRow) this.tRow).cloudURL.setText(Html.fromHtml("<a href='https://" + url + "'>" + url + "</a>"));
-*/
 
         if (config.service == CloudProfileConfigurationDialogFragment.DEF_CLOUD_IBMQUICKSTART_CLOUD_SERVICE) {
             ((IBMIoTCloudTableRow) this.tRow).cloudURL.setText("Open in browser");
@@ -192,14 +130,10 @@ public class AzureIoTCloudProfile extends GenericBluetoothProfile {
         try {
             ((IBMIoTCloudTableRow) tRow).setCloudConnectionStatusImage(context.getResources().getDrawable(R.drawable.cloud_disconnected));
             ready = false;
-            if (publishTimer != null) {
-                publishTimer.cancel();
-            }
             if (client != null) {
                 Log.d("IBMIoTCloudProfile", "Disconnecting from Azure");
                 client.unregisterResources();
                 client = null;
-                memPer = null;
             }
         }
         catch (Exception e) {
@@ -210,69 +144,25 @@ public class AzureIoTCloudProfile extends GenericBluetoothProfile {
     }
 
     public boolean connect() {
-        memPer = new MemoryPersistence();
-        String url = config.brokerAddress + ":" + config.brokerPort;
-        Log.d("IBMIoTCloudProfile","Cloud Broker URL : " + url);
-        client = new AzureEventBusClient(this.context,url,config.deviceId);
-        MqttConnectOptions options = null;
-
-        if (config.service > CloudProfileConfigurationDialogFragment.DEF_CLOUD_IBMQUICKSTART_CLOUD_SERVICE) {
-            options = new MqttConnectOptions();
-            options.setCleanSession(config.cleanSession);
-            if (config.username.length() > 0)options.setUserName(config.username);
-            if (config.password.length() > 0)options.setPassword(config.password.toCharArray());
-            Log.d("IBMIoTCloudProfile","Adding Options : Clean Session : " + options.isCleanSession() + ", Username : " + config.username + ", " + "Password : " + "********");
-        }
-
-        client.connect(options, new IMqttActionListener() {
-            @Override
-            public void onSuccess(IMqttToken iMqttToken) {
-                Log.d("IBMIoTCloudProfile", "Connected to cloud : " + client.getServerURI() + "," + client.getClientId());
-                client.publish(config.publishTopic,jsonEncode("myName",mBTDevice.getName().toString()).getBytes(),0,false);
-                ready = true;
-                ((IBMIoTCloudTableRow) tRow).setCloudConnectionStatusImage(context.getResources().getDrawable(R.drawable.cloud_connected));
-
-            }
-
-            @Override
-            public void onFailure(IMqttToken iMqttToken, Throwable throwable) {
-                Log.d("IBMIoTCloudProfile","Connection to IBM cloud failed !");
-                Log.d("IBMIoTCloudProfile","Error: " + throwable.getLocalizedMessage());
-                ((IBMIoTCloudTableRow) tRow).setCloudConnectionStatusImage(context.getResources().getDrawable(R.drawable.cloud_disconnected));
-            }
-        });
+        client = new AzureEventBusClient(this.context,null,config.deviceId);
         publishTimer = new Timer();
         MQTTTimerTask task = new MQTTTimerTask();
         publishTimer.schedule(task,1000,1000);
+        ready = true;
+        ((IBMIoTCloudTableRow) tRow).setCloudConnectionStatusImage(context.getResources().getDrawable(R.drawable.cloud_connected));
         return true;
     }
 
 
-    public String jsonEncode(String variableName, String Value) {
-        String tmpString = new String();
-        tmpString += startString;
-        tmpString += "\"" + variableName + "\"" + ":" + "\"" + Value + "\"";
-        tmpString += stopString;
-        return tmpString;
-    }
-    public String jsonEncode(String str) {
-        String tmpString = new String();
-        tmpString += startString;
-        tmpString += str;
-        tmpString += stopString;
-        return tmpString;
-    }
-    public void publishString(String str) {
-        MqttMessage message = new MqttMessage();
-            client.publish(config.publishTopic,jsonEncode("Test","123").getBytes(),0,false);
-            //Log.d("IBMIoTCloudProfile", "Published message :" + message.toString());
-    }
-    public void addSensorValueToPendingMessage(String variableName, String Value) {
-        this.valueMap.put(variableName,Value);
-    }
     public void addSensorValueToPendingMessage(Map.Entry<String,String> e) {
         this.valueMap.put(e.getKey(),e.getValue());
     }
+
+    public void addSensorReading(AccelerometerReading reading) {
+        this.valueList.add(reading);
+    }
+
+
     @Override
     public void onPause() {
         super.onPause();
@@ -307,49 +197,6 @@ public class AzureIoTCloudProfile extends GenericBluetoothProfile {
     }
     public static AzureIoTCloudProfile getInstance() {
         return mThis;
-    }
-    class MQTTTimerTask extends TimerTask {
-        @Override
-        public void run() {
-            if (ready) {
-                final Activity activity = (Activity) context;
-                activity.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        ((IBMIoTCloudTableRow)tRow).setCloudConnectionStatusImage(activity.getResources().getDrawable(R.drawable.cloud_connected_tx));
-                    }
-                });
-                String publishValues = "";
-                Map<String, String> dict = new HashMap<String, String>();
-                dict.putAll(valueMap);
-                for (Map.Entry<String, String> entry : dict.entrySet()) {
-                    String var = entry.getKey();
-                    String val = entry.getValue();
-
-                    publishValues += "\"" + var + "\"" + ":" + "\"" + val + "\"" + ",\n";
-                }
-                if (publishValues.length() > 0) {
-                    String pub = publishValues.substring(0, publishValues.length() - 2);
-                    client.publish(config.publishTopic, jsonEncode(pub).getBytes(), 0, false);
-                    Log.d("IBMIoTCloudProfile", "Published :" + jsonEncode(pub));
-                    try {
-                        Thread.sleep(60);
-                    }
-                    catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-                activity.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        ((IBMIoTCloudTableRow)tRow).setCloudConnectionStatusImage(activity.getResources().getDrawable(R.drawable.cloud_connected));
-                    }
-                });
-            }
-            else {
-                Log.d("IBMIoTCloudProfile", "MQTTTimerTask ran, but MQTT not ready");
-            }
-        }
     }
 
     private static IntentFilter makeCloudConfigUpdateFilter() {
@@ -424,15 +271,56 @@ public class AzureIoTCloudProfile extends GenericBluetoothProfile {
         c.useSSL = CloudProfileConfigurationDialogFragment.DEF_CLOUD_IBMQUICKSTART_USE_SSL;
         return c;
     }
-    public void writeCloudConfigToPrefs(cloudConfig c) {
-        CloudProfileConfigurationDialogFragment.setCloudPref(CloudProfileConfigurationDialogFragment.PREF_CLOUD_SERVICE,c.service.toString(),this.context);
-        CloudProfileConfigurationDialogFragment.setCloudPref(CloudProfileConfigurationDialogFragment.PREF_CLOUD_USERNAME,c.username,this.context);
-        CloudProfileConfigurationDialogFragment.setCloudPref(CloudProfileConfigurationDialogFragment.PREF_CLOUD_PASSWORD,c.password,this.context);
-        CloudProfileConfigurationDialogFragment.setCloudPref(CloudProfileConfigurationDialogFragment.PREF_CLOUD_DEVICE_ID,c.deviceId,this.context);
-        CloudProfileConfigurationDialogFragment.setCloudPref(CloudProfileConfigurationDialogFragment.PREF_CLOUD_BROKER_ADDR,c.brokerAddress,this.context);
-        CloudProfileConfigurationDialogFragment.setCloudPref(CloudProfileConfigurationDialogFragment.PREF_CLOUD_BROKER_PORT,((Integer)c.brokerPort).toString(),this.context);
-        CloudProfileConfigurationDialogFragment.setCloudPref(CloudProfileConfigurationDialogFragment.PREF_CLOUD_PUBLISH_TOPIC,c.publishTopic,this.context);
-        CloudProfileConfigurationDialogFragment.setCloudPref(CloudProfileConfigurationDialogFragment.PREF_CLOUD_CLEAN_SESSION,((Boolean)c.cleanSession).toString(),this.context);
-        CloudProfileConfigurationDialogFragment.setCloudPref(CloudProfileConfigurationDialogFragment.PREF_CLOUD_USE_SSL,((Boolean)c.useSSL).toString(),this.context);
+
+    class MQTTTimerTask extends TimerTask {
+        @Override
+        public void run() {
+            Log.d("MQTTTimerTask", "MQTTTimerTask ran.");
+            if (ready) {
+                final Activity activity = (Activity) context;
+                activity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        ((IBMIoTCloudTableRow)tRow).setCloudConnectionStatusImage(activity.getResources().getDrawable(R.drawable.cloud_connected_tx));
+                    }
+                });
+
+                List<AccelerometerReading> copy = new ArrayList<AccelerometerReading>(valueList);
+                if(!copy.isEmpty()) {
+                    SyncHttpClient client = new SyncHttpClient();
+                    try {
+                        String url = "https://mqqt-test.servicebus.windows.net/ferhat-event_hub/publishers/android/messages";
+                        //Generated at http://eventhubsas.azurewebsites.net/
+                        client.addHeader("Authorization", "SharedAccessSignature sr=https%3a%2f%2fmqqt-test.servicebus.windows.net%2fferhat-event_hub&sig=xWa9Y%2btbPeJCzNMp08dAT3RZmdVA9tRB%2bp%2bAq%2fFKuQY%3d&se=1447849892&skn=FERHAT-MQTT-SHARED-POLICy");
+                        Gson gson = new Gson();
+                        final String json = gson.toJson(copy);
+                        StringEntity entity = new StringEntity(json);
+                        client.post(null, url, entity, "application/json", new AsyncHttpResponseHandler() {
+                            @Override
+                            public void onSuccess(int i, Header[] headers, byte[] bytes) {
+                                Log.d("Successfully sent:", json);
+                            }
+
+                            @Override
+                            public void onFailure(int i, Header[] headers, byte[] bytes, Throwable throwable) {
+                                Log.d("Failed to send:", "" + json, throwable);
+                            }
+                        });
+                    } catch (UnsupportedEncodingException e) {
+                        Log.d("Failed to send:", "" + copy.size(), e);
+                    } finally {
+                    }
+                }
+                activity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        ((IBMIoTCloudTableRow)tRow).setCloudConnectionStatusImage(activity.getResources().getDrawable(R.drawable.cloud_connected));
+                    }
+                });
+            }
+            else {
+                Log.d("IBMIoTCloudProfile", "MQTTTimerTask ran, but MQTT not ready");
+            }
+        }
     }
 }

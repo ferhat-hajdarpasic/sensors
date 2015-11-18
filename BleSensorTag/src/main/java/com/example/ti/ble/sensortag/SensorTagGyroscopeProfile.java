@@ -58,6 +58,7 @@ import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattService;
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 
 import com.example.ti.ble.common.BluetoothLeService;
@@ -115,9 +116,11 @@ public class SensorTagGyroscopeProfile extends GenericBluetoothProfile {
 	
 	public static boolean isCorrectService(BluetoothGattService service) {
         if ((service.getUuid().toString().compareTo(SensorTagGatt.UUID_GYR_SERV.toString())) == 0) {
-			return true;
-		}
-		else return false;
+            Log.d("DeviceActivity", "Found Gyroscope !");
+            return true;
+		} else {
+            return false;
+        }
 	}
     @Override
 	public void didUpdateValueForCharacteristic(BluetoothGattCharacteristic c) {

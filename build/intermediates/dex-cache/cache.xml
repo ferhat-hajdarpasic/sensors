@@ -2,11 +2,18 @@
 <items version="2" >
 
     <item
-        jar="C:\Users\ferhat\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-v4\19.1.0\support-v4-19.1.0.jar"
+        jar="C:\Users\ferhat\.gradle\caches\modules-2\files-2.1\cz.msebera.android\httpclient\4.3.6\526a9f794eab830eae4f23a62c572878b3f491ab\httpclient-4.3.6.jar"
         jumboMode="false"
         revision="21.1.2"
-        sha1="85f201b380937e61a9dce6ca90ccf6872abbfb67">
-        <dex dex="C:\Users\ferhat\sensortag-20-android\sensortag20\BleSensorTag\build\intermediates\pre-dexed\debug\support-v4-19.1.0-b01db61b5dc1759927111885e0ea77e4600e2147.jar" />
+        sha1="526a9f794eab830eae4f23a62c572878b3f491ab">
+        <dex dex="C:\Users\ferhat\sensortag-20-android\sensortag20\BleSensorTag\build\intermediates\pre-dexed\debug\httpclient-4.3.6-b5fb15bc62d9a898e0fc2bf5267f49a2399d99a5.jar" />
+    </item>
+    <item
+        jar="C:\Users\ferhat\sensortag-20-android\sensortag20\BleSensorTag\libs\org.eclipse.paho.android.service-1.0.2.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="3b8420e57139cc627a55be0c17b6687e92d7460f">
+        <dex dex="C:\Users\ferhat\sensortag-20-android\sensortag20\BleSensorTag\build\intermediates\pre-dexed\debug\org.eclipse.paho.android.service-1.0.2-6cb6ad7c6f5f4fb5fd26467f147834a23cf9bb3f.jar" />
     </item>
     <item
         jar="C:\Users\ferhat\sensortag-20-android\sensortag20\BleSensorTag\libs\org.eclipse.paho.client.mqttv3-1.0.2.jar"
@@ -16,11 +23,25 @@
         <dex dex="C:\Users\ferhat\sensortag-20-android\sensortag20\BleSensorTag\build\intermediates\pre-dexed\debug\org.eclipse.paho.client.mqttv3-1.0.2-aa7619e72af4d177c531eb59db92fdd7d83166d8.jar" />
     </item>
     <item
-        jar="C:\Users\ferhat\sensortag-20-android\sensortag20\BleSensorTag\libs\org.eclipse.paho.android.service-1.0.2.jar"
+        jar="C:\Users\ferhat\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-v4\19.1.0\support-v4-19.1.0.jar"
         jumboMode="false"
         revision="21.1.2"
-        sha1="3b8420e57139cc627a55be0c17b6687e92d7460f">
-        <dex dex="C:\Users\ferhat\sensortag-20-android\sensortag20\BleSensorTag\build\intermediates\pre-dexed\debug\org.eclipse.paho.android.service-1.0.2-6cb6ad7c6f5f4fb5fd26467f147834a23cf9bb3f.jar" />
+        sha1="85f201b380937e61a9dce6ca90ccf6872abbfb67">
+        <dex dex="C:\Users\ferhat\sensortag-20-android\sensortag20\BleSensorTag\build\intermediates\pre-dexed\debug\support-v4-19.1.0-b01db61b5dc1759927111885e0ea77e4600e2147.jar" />
+    </item>
+    <item
+        jar="C:\Users\ferhat\.gradle\caches\modules-2\files-2.1\com.google.code.gson\gson\2.4\695b63d702f505b9b916e02272e3b6381bade7f\gson-2.4.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="0695b63d702f505b9b916e02272e3b6381bade7f">
+        <dex dex="C:\Users\ferhat\sensortag-20-android\sensortag20\BleSensorTag\build\intermediates\pre-dexed\debug\gson-2.4-f458af6863535d6f24199b61b27e44ab3550eae6.jar" />
+    </item>
+    <item
+        jar="C:\Users\ferhat\.gradle\caches\modules-2\files-2.1\com.loopj.android\android-async-http\1.4.9\386a4339ffe52d5d63e80f9bed8d2b1d1a418249\android-async-http-1.4.9.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="386a4339ffe52d5d63e80f9bed8d2b1d1a418249">
+        <dex dex="C:\Users\ferhat\sensortag-20-android\sensortag20\BleSensorTag\build\intermediates\pre-dexed\debug\android-async-http-1.4.9-bb9f3903e122c2160ac4e37eab0d6efd482d2004.jar" />
     </item>
 
 </items>

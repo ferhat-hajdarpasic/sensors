@@ -8,6 +8,11 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.media.AudioManager;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
+import android.media.ToneGenerator;
+import android.net.Uri;
 import android.os.Build;
 import android.util.Log;
 import android.widget.Toast;
@@ -17,6 +22,7 @@ import com.example.ti.ble.common.AzureIoTCloudProfile;
 import com.example.ti.ble.common.BluetoothLeService;
 import com.example.ti.ble.common.GenericBluetoothProfile;
 import com.example.ti.ble.common.IBMIoTCloudProfile;
+import com.example.ti.ble.common.IBMIoTCloudTableRow;
 import com.example.ti.ble.ti.profiles.TIOADProfile;
 
 import java.util.ArrayList;
@@ -35,7 +41,7 @@ public class DeviceActivityBroadcastReceiver extends BroadcastReceiver {
     public DeviceActivityBroadcastReceiver(DeviceActivity deviceActivity, List<BluetoothGattService> serviceList) {
         this.serviceList = serviceList;
         this.deviceActivity = deviceActivity;
-        mFwRev = new String("1.5"); // Assuming all SensorTags are up to date until actual FW revision is read
+        mFwRev = new String("1.5");
     }
 
     @Override
@@ -60,7 +66,6 @@ public class DeviceActivityBroadcastReceiver extends BroadcastReceiver {
             }
         } else if (BluetoothLeService.ACTION_DATA_NOTIFY.equals(action)) {
             onDataNotify(intent);
-//onCharacteristicChanged(uuidStr, value);
         } else if (BluetoothLeService.ACTION_DATA_WRITE.equals(action)) {
             onDataWrite(intent);
 
@@ -77,7 +82,6 @@ public class DeviceActivityBroadcastReceiver extends BroadcastReceiver {
     }
 
     private void onDataRead(Intent intent) {
-// Data read
         byte[] value = intent.getByteArrayExtra(BluetoothLeService.EXTRA_DATA);
         String uuidStr = intent.getStringExtra(BluetoothLeService.EXTRA_UUID);
         for (int ii = 0; ii < charList.size(); ii++) {
@@ -87,14 +91,12 @@ public class DeviceActivityBroadcastReceiver extends BroadcastReceiver {
                     GenericBluetoothProfile p = deviceActivity.mProfiles.get(jj);
                     p.didReadValueForCharacteristic(tempC);
                 }
-//Log.d("DeviceActivity","Got Characteristic : " + tempC.getUuid().toString());
                 break;
             }
         }
     }
 
     private void onDataWrite(Intent intent) {
-// Data written
         byte[] value = intent.getByteArrayExtra(BluetoothLeService.EXTRA_DATA);
         String uuidStr = intent.getStringExtra(BluetoothLeService.EXTRA_UUID);
         for (int ii = 0; ii < charList.size(); ii++) {
@@ -104,17 +106,14 @@ public class DeviceActivityBroadcastReceiver extends BroadcastReceiver {
                     GenericBluetoothProfile p = deviceActivity.mProfiles.get(jj);
                     p.didWriteValueForCharacteristic(tempC);
                 }
-//Log.d("DeviceActivity","Got Characteristic : " + tempC.getUuid().toString());
                 break;
             }
         }
     }
 
     private void onDataNotify(Intent intent) {
-// Notification
         byte[] value = intent.getByteArrayExtra(BluetoothLeService.EXTRA_DATA);
         String uuidStr = intent.getStringExtra(BluetoothLeService.EXTRA_UUID);
-//Log.d("DeviceActivity","Got Characteristic : " + uuidStr);
         for (int ii = 0; ii < charList.size(); ii++) {
             BluetoothGattCharacteristic tempC = charList.get(ii);
             if ((tempC.getUuid().toString().equals(uuidStr))) {
@@ -122,17 +121,40 @@ public class DeviceActivityBroadcastReceiver extends BroadcastReceiver {
                     GenericBluetoothProfile p = deviceActivity.mProfiles.get(jj);
                     if (p.isDataC(tempC)) {
                         p.didUpdateValueForCharacteristic(tempC);
-//Do MQTT
                         Map<String, String> map = p.getMQTTMap();
                         if (map != null) {
+                            if(p instanceof SensorTagAccelerometerProfile) {
+                                final AccelerometerReading reading =((SensorTagAccelerometerProfile)p).getReading();
+                                if (deviceActivity.mqttProfile != null) {
+                                    deviceActivity.mqttProfile.addSensorReading(reading);
+                                }
+
+                                final double totalAcceleration = ConcussionDetector.getTotalAcceleration(reading);
+                                Log.d("#", "Total acceleration=" + totalAcceleration);
+                                if (totalAcceleration >= 0.45) {
+                                    deviceActivity.runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+
+                                            try {
+                                                Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+                                                Ringtone r = RingtoneManager.getRingtone(deviceActivity, notification);
+                                                r.play();
+                                            } catch (Exception e) {
+                                                e.printStackTrace();
+                                            }
+                                        }
+                                    });
+                                }
+                            }
                             for (Map.Entry<String, String> e : map.entrySet()) {
-                                if (deviceActivity.mqttProfile != null)
+                                if (deviceActivity.mqttProfile != null) {
                                     deviceActivity.mqttProfile.addSensorValueToPendingMessage(e);
+                                }
                             }
                         }
                     }
                 }
-//Log.d("DeviceActivity","Got Characteristic : " + tempC.getUuid().toString());
                 break;
             }
         }
@@ -238,49 +260,6 @@ public class DeviceActivityBroadcastReceiver extends BroadcastReceiver {
                         }
                     });
                     Log.d("DeviceActivity", "Configuring service with uuid : " + s.getUuid().toString());
-                    if (SensorTagHumidityProfile.isCorrectService(s)) {
-                        GenericBluetoothProfile profile = new SensorTagHumidityProfile(context, deviceActivity.mBluetoothDevice, s, deviceActivity.mBtLeService);
-                        nrNotificationsOn = addProfile(nrNotificationsOn, maxNotifications, profile);
-                        Log.d("DeviceActivity", "Found Humidity !");
-                    }
-                    if (SensorTagLuxometerProfile.isCorrectService(s)) {
-                        GenericBluetoothProfile profile = new SensorTagLuxometerProfile(context, deviceActivity.mBluetoothDevice, s,deviceActivity. mBtLeService);
-                        nrNotificationsOn = addProfile(nrNotificationsOn, maxNotifications, profile);
-                        Log.d("DeviceActivity", "Found Luxometer !");
-                    }
-                    if (SensorTagSimpleKeysProfile.isCorrectService(s)) {
-                        GenericBluetoothProfile profile = new SensorTagSimpleKeysProfile(context, deviceActivity.mBluetoothDevice, s, deviceActivity.mBtLeService);
-                        nrNotificationsOn = addProfile(nrNotificationsOn, maxNotifications, profile);
-                        Log.d("DeviceActivity", "Found Simple Keys !");
-                    }
-                    if (SensorTagBarometerProfile.isCorrectService(s)) {
-                        GenericBluetoothProfile profile = new SensorTagBarometerProfile(context, deviceActivity.mBluetoothDevice, s, deviceActivity.mBtLeService);
-                        nrNotificationsOn = addProfile(nrNotificationsOn, maxNotifications, profile);
-                        Log.d("DeviceActivity", "Found Barometer !");
-                    }
-                    if (SensorTagAmbientTemperatureProfile.isCorrectService(s)) {
-                        GenericBluetoothProfile profile = new SensorTagAmbientTemperatureProfile(context, deviceActivity.mBluetoothDevice, s, deviceActivity.mBtLeService);
-                        nrNotificationsOn = addProfile(nrNotificationsOn, maxNotifications, profile);
-                        Log.d("DeviceActivity", "Found Ambient Temperature !");
-                    }
-                    if (SensorTagIRTemperatureProfile.isCorrectService(s)) {
-                        GenericBluetoothProfile profile = new SensorTagIRTemperatureProfile(context, deviceActivity.mBluetoothDevice, s, deviceActivity.mBtLeService);
-                        deviceActivity.mProfiles.add(profile);
-                        if (nrNotificationsOn < maxNotifications) {
-                            profile.configureService();
-                        } else {
-                            profile.grayOutCell(true);
-                        }
-//No notifications add here because it is already enabled above ..
-                        Log.d("DeviceActivity", "Found IR Temperature !");
-                    }
-                    if (SensorTagMovementProfile.isCorrectService(s)) {
-                        GenericBluetoothProfile profile = new SensorTagMovementProfile(context, deviceActivity.mBluetoothDevice, s, deviceActivity.mBtLeService);
-                        nrNotificationsOn = addProfile(nrNotificationsOn, maxNotifications, profile);
-                        Log.d("DeviceActivity", "Found Motion !");
-                    }
-
-
                     if (SensorTagGyroscopeProfile.isCorrectService(s)) {
                         GenericBluetoothProfile profile = new SensorTagGyroscopeProfile(context, deviceActivity.mBluetoothDevice, s, deviceActivity.mBtLeService);
                         nrNotificationsOn = addProfile(nrNotificationsOn, maxNotifications, profile);
@@ -292,19 +271,6 @@ public class DeviceActivityBroadcastReceiver extends BroadcastReceiver {
                         nrNotificationsOn = addProfile(nrNotificationsOn, maxNotifications, profile);
                         Log.d("DeviceActivity", "Found Accelerometer !");
 
-                    }
-                    if (DeviceInformationServiceProfile.isCorrectService(s)) {
-                        GenericBluetoothProfile profile = new DeviceInformationServiceProfile(context, deviceActivity.mBluetoothDevice, s, deviceActivity.mBtLeService);
-                        deviceActivity.mProfiles.add(profile);
-                        profile.configureService();
-                        Log.d("DeviceActivity", "Found Device Information Service");
-                    }
-                    if (TIOADProfile.isCorrectService(s)) {
-                        GenericBluetoothProfile profile = new TIOADProfile(context, deviceActivity.mBluetoothDevice, s, deviceActivity.mBtLeService);
-                        deviceActivity.mProfiles.add(profile);
-                        profile.configureService();
-                        deviceActivity.mOadService = s;
-                        Log.d("DeviceActivity", "Found TI OAD Service");
                     }
                     if ((s.getUuid().toString().compareTo("f000ccc0-0451-4000-b000-000000000000")) == 0) {
                         deviceActivity.mConnControlService = s;
