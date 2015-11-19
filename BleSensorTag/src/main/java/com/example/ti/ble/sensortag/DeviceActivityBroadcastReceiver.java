@@ -272,6 +272,12 @@ public class DeviceActivityBroadcastReceiver extends BroadcastReceiver {
                         Log.d("DeviceActivity", "Found Accelerometer !");
 
                     }
+                    if (SensorTagMovementProfile.isCorrectService(s)) {
+                        GenericBluetoothProfile profile = new SensorTagMovementProfile(context, deviceActivity.mBluetoothDevice, s, deviceActivity.mBtLeService);
+                        nrNotificationsOn = addProfile(nrNotificationsOn, maxNotifications, profile);
+                        Log.d("DeviceActivity", "Found Accelerometer !");
+
+                    }
                     if ((s.getUuid().toString().compareTo("f000ccc0-0451-4000-b000-000000000000")) == 0) {
                         deviceActivity.mConnControlService = s;
                     }
