@@ -294,20 +294,22 @@ public class ScanView extends Fragment {
       BluetoothDevice device = deviceInfo.getBluetoothDevice();
       int rssi = deviceInfo.getRssi();
       String name;
-      name = device.getName();
+      //name = device.getName();
+        name = "Impact Sensor";
       if (name == null) {
       	name = new String("Unknown device");
       } 
 
-      String descr = name + "\n" + device.getAddress() + "\nRssi: " + rssi + " dBm";
+      String descr = name + "\n" + device.getAddress(); // + "\nRssi: " + rssi + " dBm";
       ((TextView) vg.findViewById(R.id.descr)).setText(descr);
       
       ImageView iv = (ImageView)vg.findViewById(R.id.devImage);
-      if (name.equals("SensorTag2") || name.equals("CC2650 SensorTag"))
-      	iv.setImageResource(R.drawable.sensortag2_300);
-      else {
-    	  iv.setImageResource(R.drawable.sensortag_300);
-      }
+      iv.setImageResource(R.drawable.sensor);
+      //if (name.equals("SensorTag2") || name.equals("CC2650 SensorTag"))
+      //	iv.setImageResource(R.drawable.sensortag2_300);
+      //else {
+      //  iv.setImageResource(R.drawable.sensortag_300);
+      //}
       // Disable connect button when connecting or connected
       Button bv = (Button)vg.findViewById(R.id.btnConnect);
       bv.setEnabled(mConnectTimer == null);

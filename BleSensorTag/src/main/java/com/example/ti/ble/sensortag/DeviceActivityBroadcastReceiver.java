@@ -186,7 +186,7 @@ public class DeviceActivityBroadcastReceiver extends BroadcastReceiver {
                 }
 //Special profile for Cloud service
                 deviceActivity.mqttProfile = new AzureIoTCloudProfile(context, deviceActivity.mBluetoothDevice, null, deviceActivity.mBtLeService);
-                deviceActivity.mProfiles.add(deviceActivity.mqttProfile);
+                //deviceActivity.mProfiles.add(deviceActivity.mqttProfile);
                 if (totalCharacteristics == 0) {
 //Something bad happened, we have a problem
                     deviceActivity.runOnUiThread(new Runnable() {
