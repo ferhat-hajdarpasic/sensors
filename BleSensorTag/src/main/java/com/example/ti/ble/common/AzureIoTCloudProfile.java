@@ -9,12 +9,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.Uri;
-import android.os.PowerManager.WakeLock;
 import android.util.Log;
 import android.view.View;
 import android.widget.CompoundButton;
 
-import com.example.ti.ble.sensortag.AccelerometerReading;
+import com.example.ti.ble.sensortag.Accelerometer;
+import com.example.ti.ble.sensortag.Motion;
 import com.example.ti.ble.sensortag.R;
 import com.google.gson.Gson;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -37,7 +37,7 @@ public class AzureIoTCloudProfile extends GenericBluetoothProfile {
     final String addrShort;
     static AzureIoTCloudProfile mThis;
     Map<String, String> valueMap = new HashMap<String, String>();
-    List<AccelerometerReading> valueList = Collections.synchronizedList(new ArrayList<AccelerometerReading>());
+    List<Motion> valueList = Collections.synchronizedList(new ArrayList<Motion>());
     public boolean ready;
     private Timer publishTimer;
     BroadcastReceiver cloudConfigUpdateReceiver;
@@ -158,7 +158,7 @@ public class AzureIoTCloudProfile extends GenericBluetoothProfile {
         this.valueMap.put(e.getKey(),e.getValue());
     }
 
-    public void addSensorReading(AccelerometerReading reading) {
+    public void addSensorReading(Motion reading) {
         this.valueList.add(reading);
     }
 
@@ -285,7 +285,7 @@ public class AzureIoTCloudProfile extends GenericBluetoothProfile {
                     }
                 });
 
-                List<AccelerometerReading> copy = new ArrayList<AccelerometerReading>(valueList);
+                List<Motion> copy = new ArrayList<Motion>(valueList);
                 if(!copy.isEmpty()) {
                     SyncHttpClient client = new SyncHttpClient();
                     try {

@@ -8,10 +8,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.media.AudioManager;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
-import android.media.ToneGenerator;
 import android.net.Uri;
 import android.os.Build;
 import android.util.Log;
@@ -21,8 +19,6 @@ import com.example.ti.ble.btsig.profiles.DeviceInformationServiceProfile;
 import com.example.ti.ble.common.AzureIoTCloudProfile;
 import com.example.ti.ble.common.BluetoothLeService;
 import com.example.ti.ble.common.GenericBluetoothProfile;
-import com.example.ti.ble.common.IBMIoTCloudProfile;
-import com.example.ti.ble.common.IBMIoTCloudTableRow;
 import com.example.ti.ble.ti.profiles.TIOADProfile;
 
 import java.util.ArrayList;
@@ -123,15 +119,15 @@ public class DeviceActivityBroadcastReceiver extends BroadcastReceiver {
                         p.didUpdateValueForCharacteristic(tempC);
                         Map<String, String> map = p.getMQTTMap();
                         if (map != null) {
-                            if(p instanceof SensorTagAccelerometerProfile) {
-                                final AccelerometerReading reading =((SensorTagAccelerometerProfile)p).getReading();
+                            if(p instanceof MotionSensor) {
+                                final Motion reading =((MotionSensor)p).getReading();
                                 if (deviceActivity.mqttProfile != null) {
                                     deviceActivity.mqttProfile.addSensorReading(reading);
                                 }
 
                                 final double totalAcceleration = ConcussionDetector.getTotalAcceleration(reading);
                                 Log.d("#", "Total acceleration=" + totalAcceleration);
-                                if (totalAcceleration >= 0.45) {
+                                if (totalAcceleration >= 2.0) {
                                     deviceActivity.runOnUiThread(new Runnable() {
                                         @Override
                                         public void run() {

@@ -64,10 +64,8 @@ import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattService;
 import android.content.Context;
-import android.util.ArrayMap;
 import android.util.Log;
 import android.view.View;
-import android.view.animation.Animation;
 
 import com.example.ti.ble.common.BluetoothLeService;
 import com.example.ti.ble.common.GattInfo;
@@ -75,7 +73,7 @@ import com.example.ti.ble.common.GenericBluetoothProfile;
 import com.example.ti.util.GenericCharacteristicTableRow;
 import com.example.ti.util.Point3D;
 
-public class SensorTagAccelerometerProfile extends GenericBluetoothProfile {
+public class SensorTagAccelerometerProfile extends GenericBluetoothProfile implements MotionSensor {
 	public SensorTagAccelerometerProfile(Context con,BluetoothDevice device,BluetoothGattService service,BluetoothLeService controller) {
 		super(con,device,service,controller);
 		this.tRow =  new GenericCharacteristicTableRow(con);
@@ -145,8 +143,8 @@ public class SensorTagAccelerometerProfile extends GenericBluetoothProfile {
         return map;
     }
 
-    public AccelerometerReading getReading() {
+    public Motion getReading() {
         Point3D p = Sensor.ACCELEROMETER.convert(this.dataC.getValue());
-        return new AccelerometerReading(new Date(), p);
+        return new Motion(new Date(), p, null, null);
     }
 }

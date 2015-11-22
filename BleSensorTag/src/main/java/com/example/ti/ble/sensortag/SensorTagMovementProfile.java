@@ -54,6 +54,7 @@
  **************************************************************************************************/
 package com.example.ti.ble.sensortag;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -70,7 +71,7 @@ import com.example.ti.ble.common.GattInfo;
 import com.example.ti.ble.common.GenericBluetoothProfile;
 import com.example.ti.util.Point3D;
 
-public class SensorTagMovementProfile extends GenericBluetoothProfile {
+public class SensorTagMovementProfile extends GenericBluetoothProfile implements MotionSensor {
 	
 	public SensorTagMovementProfile(Context con,BluetoothDevice device,BluetoothGattService service,BluetoothLeService controller) {
 		super(con,device,service,controller);
@@ -184,5 +185,11 @@ public class SensorTagMovementProfile extends GenericBluetoothProfile {
         map.put("compass_y",String.format("%.2f",v.y));
         map.put("compass_z",String.format("%.2f",v.z));
         return map;
+    }
+    public Motion getReading() {
+        Point3D a = Sensor.MOVEMENT_ACC.convert(this.dataC.getValue());
+        Point3D g = Sensor.MOVEMENT_GYRO.convert(this.dataC.getValue());
+        Point3D c = Sensor.MOVEMENT_MAG.convert(this.dataC.getValue());
+        return new Motion(new Date(), a, g, c);
     }
 }
