@@ -58,6 +58,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothGatt;
@@ -120,6 +121,7 @@ import com.example.ti.ble.common.IBMIoTCloudProfile;
 
 	//GUI
 	List<GenericBluetoothProfile> mProfiles;
+	private DeviceActivityBroadcastReceiver mGattUpdateReceiver;
 
 	public DeviceActivity() {
 		mResourceFragmentPager = R.layout.fragment_pager;
@@ -132,6 +134,11 @@ import com.example.ti.ble.common.IBMIoTCloudProfile;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+		String key = getResources().getString(R.string.sampling_frequency);
+		int samplingPeriod = Integer.parseInt(prefs.getString(key, "1000"));
+		mGattUpdateReceiver = new DeviceActivityBroadcastReceiver(this, mServiceList, samplingPeriod);
+
 		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 		super.onCreate(savedInstanceState);
 		Intent intent = getIntent();
@@ -215,10 +222,7 @@ import com.example.ti.ble.common.IBMIoTCloudProfile;
 		// Handle presses on the action bar items
 		switch (item.getItemId()) {
 		case R.id.opt_prefs:
-			startPreferenceActivity();
-			break;
-		case R.id.opt_about:
-			openAboutDialog();
+			startPreferenceActivity(mBluetoothDevice, this);
 			break;
 		default:
 			return super.onOptionsItemSelected(item);
@@ -299,14 +303,14 @@ import com.example.ti.ble.common.IBMIoTCloudProfile;
 		return mConnControlService;
 	}
 
-	private void startPreferenceActivity() {
+	public static void startPreferenceActivity(BluetoothDevice bluetoothDevice, Activity activity) {
 		// Launch preferences
-		final Intent i = new Intent(this, PreferencesActivity.class);
+		final Intent i = new Intent(activity, PreferencesActivity.class);
 		i.putExtra(PreferencesActivity.EXTRA_SHOW_FRAGMENT,
 				PreferencesFragment.class.getName());
 		i.putExtra(PreferencesActivity.EXTRA_NO_HEADERS, true);
-		i.putExtra(EXTRA_DEVICE, mBluetoothDevice);
-		startActivityForResult(i, PREF_ACT_REQ);
+		i.putExtra(EXTRA_DEVICE, bluetoothDevice);
+		activity.startActivityForResult(i, PREF_ACT_REQ);
 	}
 
 	void discoverServices() {
@@ -340,5 +344,4 @@ import com.example.ti.ble.common.IBMIoTCloudProfile;
 	private void setStatus(String txt) {
 		Toast.makeText(this, txt, Toast.LENGTH_SHORT).show();
 	}
-	private final DeviceActivityBroadcastReceiver mGattUpdateReceiver = new DeviceActivityBroadcastReceiver(this, mServiceList);
 }

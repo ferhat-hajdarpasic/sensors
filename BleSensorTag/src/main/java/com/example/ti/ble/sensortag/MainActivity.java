@@ -141,8 +141,6 @@ public class MainActivity extends ViewPagerActivity {
 
 		prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
-
-
 		// Initialize device list container and device filter
 		mDeviceInfoList = new ArrayList<BleDeviceInfo>();
 		Resources res = getResources();
@@ -187,32 +185,15 @@ public class MainActivity extends ViewPagerActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// Handle presses on the action bar items
 		switch (item.getItemId()) {
+		case R.id.opt_prefs:
+			DeviceActivity.startPreferenceActivity(mBluetoothDevice, this);
+			return true;
 		case android.R.id.home:
 			onBackPressed();
 			return true;
-		case R.id.opt_bt:
-			onBluetooth();
-			break;
-		case R.id.opt_e2e:
-			onUrl(URL_FORUM);
-			break;
-		case R.id.opt_sthome:
-			onUrl(URL_STHOME);
-			break;
-		case R.id.opt_license:
-			onLicense();
-			break;
-		case R.id.opt_about:
-			onAbout();
-			break;
-		case R.id.opt_exit:
-			Toast.makeText(this, "Exit...", Toast.LENGTH_SHORT).show();
-			finish();
-			break;
 		default:
 			return super.onOptionsItemSelected(item);
 		}
-		return true;
 	}
 
 	@Override

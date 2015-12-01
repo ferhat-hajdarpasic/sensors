@@ -178,7 +178,7 @@ public class TIOADProfile extends GenericBluetoothProfile {
 		
 	}
     @Override
-    public void periodWasUpdated(int period) {
+    public void updateSamplingPeriod(int period) {
 
     }
 	@Override

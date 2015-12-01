@@ -2,24 +2,50 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:example="http://schemas.android.com/apk/res/com.ti.sensortag" >
     
-    <PreferenceCategory android:title="Units" >
+    <PreferenceCategory android:title="Device" >
         
         <!-- 
 	        Checkboxes have keys that match (with a simple transformation) the enum names in Sensor.java for easy
 	        decoding/encoding between java code and xml. 
         -->
-        <CheckBoxPreference
-            android:key="pref_imperial"
-            android:summary="Turn imperial units on or off."
-            android:defaultValue="false"
+        <EditTextPreference
+            android:key="@string/sampling_frequency"
+            android:summary="Motion sensor sampling frequency [milliseconds]."
+            android:defaultValue="100"
             android:persistent="true"
-            android:title="Imperial units" />
-        <CheckBoxPreference 
-            android:key="pref_keepAlive"
-            android:summary="Keep connection alive 20 seconds on app pause"
-            android:defaultValue="true"
+            android:title="Sampling Frequency" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="Algorithm" >
+        <EditTextPreference
+            android:key="@string/keep_track_level"
+            android:summary="keep track of any shock above acceleration"
+            android:defaultValue="10"
             android:persistent="true"
-            android:title="Keep-Alive" />
+            android:title="Keep-Track [g]" />
+        <EditTextPreference
+            android:key="@string/yellow_minor_shock"
+            android:summary="keep track of any shock above this acceleration"
+            android:defaultValue="10"
+            android:persistent="true"
+            android:title="Minor shock - Yellow" />
+        <EditTextPreference
+            android:key="@string/orange_medium_shock"
+            android:summary="keep track of any shock above this acceleration"
+            android:defaultValue="20"
+            android:persistent="true"
+            android:title="Medium shock - Orange" />
+        <EditTextPreference
+            android:key="@string/red_important_shock"
+            android:summary="keep track of any shock above this acceleration"
+            android:defaultValue="30"
+            android:persistent="true"
+            android:title="Important shock - Red" />
+        <EditTextPreference
+            android:key="@string/purple_sever_shock"
+            android:summary="keep track of any shock above this acceleration"
+            android:defaultValue="40"
+            android:persistent="true"
+            android:title="Severe shock- Purple" />
     </PreferenceCategory>
     
 </PreferenceScreen>

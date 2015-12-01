@@ -64,6 +64,8 @@ import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattService;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.example.ti.ble.common.BluetoothLeService;
@@ -72,11 +74,18 @@ import com.example.ti.ble.common.GenericBluetoothProfile;
 import com.example.ti.util.Point3D;
 
 public class SensorTagMovementProfile extends GenericBluetoothProfile implements MotionSensor {
-	
-	public SensorTagMovementProfile(Context con,BluetoothDevice device,BluetoothGattService service,BluetoothLeService controller) {
-		super(con,device,service,controller);
-		this.tRow =  new SensorTagMovementTableRow(con);
-		
+
+    private int samplingPeriod;
+
+    public SensorTagMovementProfile(Context context,
+                                    BluetoothDevice device,
+                                    BluetoothGattService service,
+                                    BluetoothLeService controller,
+                                    int samplingPeriod) {
+		super(context,device,service,controller);
+        this.samplingPeriod = samplingPeriod;
+		this.tRow =  new SensorTagMovementTableRow(context);
+
 		List<BluetoothGattCharacteristic> characteristics = this.mBTService.getCharacteristics();
 		
 		for (BluetoothGattCharacteristic c : characteristics) {
@@ -102,7 +111,8 @@ public class SensorTagMovementProfile extends GenericBluetoothProfile implements
 		row.gyroValue.setText("X:0.00'/s, Y:0.00'/s, Z:0.00'/s");
 		row.magValue.setText("X:0.00mT, Y:0.00mT, Z:0.00mT");
 		this.tRow.periodBar.setProgress(100);
-	}
+
+    }
 	
 	public static boolean isCorrectService(BluetoothGattService service) {
 		if ((service.getUuid().toString().compareTo(SensorTagGatt.UUID_MOV_SERV.toString())) == 0) {
@@ -123,7 +133,7 @@ public class SensorTagMovementProfile extends GenericBluetoothProfile implements
             Log.d("SensorTagMovementProfile","Sensor notification enable failed: " + this.configC.getUuid().toString() + " Error: " + error);
         }
 
-		this.periodWasUpdated(1000);
+		this.updateSamplingPeriod(samplingPeriod);
         this.isEnabled = true;
 	}
 	@Override 

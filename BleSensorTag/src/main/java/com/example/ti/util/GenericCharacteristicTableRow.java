@@ -461,6 +461,9 @@ public class GenericCharacteristicTableRow extends TableRow implements View.OnCl
 	@Override
 	public void onClick(View v) {
 		this.config = !this.config;
+	}
+	public void onClickOld(View v) {
+		this.config = !this.config;
 		Log.d("onClick","Row ID" + v.getId());
 		//Toast.makeText(this.context, "Found row with title : " + this.title.getText(), Toast.LENGTH_SHORT).show();
 		Animation fadeOut = new AlphaAnimation(1.0f, 0.0f);

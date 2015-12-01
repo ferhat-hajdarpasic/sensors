@@ -101,4 +101,11 @@
         <item>IBM IoT Foundation</item>
         <item>Custom</item>
     </string-array>
+    <string name="sampling_frequency">sampling_frequency</string>
+    <string name="keep_track_level">keep_track_level</string>
+    <string name="yellow_minor_shock">yellow_minor_shock</string>
+    <string name="orange_medium_shock">orange_medium_shock</string>
+    <string name="red_important_shock">red_important_shock</string>
+    <string name="purple_sever_shock">purple_sever_shock</string>
+
 </resources>

@@ -133,12 +133,12 @@ public class GenericBluetoothProfile {
         this.isConfigured = false;
 	}
 	public void enableService () {
-        int error = mBTLeService.writeCharacteristic(this.configC, (byte)0x01);
+        int error = mBTLeService.writeCharacteristic(this.configC, (byte) 0x01);
         if (error != 0) {
             if (this.configC != null)
                 printError("Sensor enable failed: ",this.configC,error);
         }
-        //this.periodWasUpdated(1000);
+        //this.updateSamplingPeriod(1000);
         this.isEnabled = true;
 	}
 	public void disableService () {
@@ -156,7 +156,7 @@ public class GenericBluetoothProfile {
 		if (this.periodC != null) {
 			if (c.equals(this.periodC)) {
 				byte[] value = c.getValue();
-				this.periodWasUpdated(value[0] * 10);
+				this.updateSamplingPeriod(value[0] * 10);
 			}
 		}
 	}
@@ -188,22 +188,19 @@ public class GenericBluetoothProfile {
 		Boolean defaultValue = true;
 		return prefs.getBoolean(preferenceKeyString, defaultValue);
 	}
-	public void periodWasUpdated(int period) {
-		if (period > 2450) period = 2450; 
-		if (period < 100) period = 100;
+	public void updateSamplingPeriod(int period) {
+		if (period > 2450) {
+			period = 2450;
+		} else if (period < 100) {
+			period = 100;
+		}
 		byte p = (byte)((period / 10) + 10);
 		Log.d("GenericBluetoothProfile","Period characteristic set to :" + period);
-        /*
-		if (this.mBTLeService.writeCharacteristic(this.periodC, p)) {
-			mBTLeService.waitIdle(GATT_TIMEOUT);
-		} else {
-			Log.d("GenericBluetoothProfile","Sensor period failed: " + this.periodC.getUuid().toString());
-		}
-		*/
         int error = mBTLeService.writeCharacteristic(this.periodC, p);
         if (error != 0) {
-            if (this.periodC != null)
-                printError("Sensor period failed: ",this.periodC,error);
+            if (this.periodC != null) {
+				printError("Sensor period failed: ", this.periodC, error);
+			}
         }
 		this.tRow.periodLegend.setText("Sensor period (currently : " + period + "ms)");
 	}
@@ -251,7 +248,7 @@ public class GenericBluetoothProfile {
 			if ((tRow.uuidLabel.getText().toString().compareTo(uuid)) == 0) { 
 				if ((action.compareTo(GenericCharacteristicTableRow.ACTION_PERIOD_UPDATE) == 0)) {
 					final int period = intent.getIntExtra(GenericCharacteristicTableRow.EXTRA_PERIOD, 1000);
-					periodWasUpdated(period);
+					updateSamplingPeriod(period);
 				}
 				else if ((action.compareTo(GenericCharacteristicTableRow.ACTION_ONOFF_UPDATE) == 0)) {
 					final boolean on = intent.getBooleanExtra(GenericCharacteristicTableRow.EXTRA_ONOFF, false);

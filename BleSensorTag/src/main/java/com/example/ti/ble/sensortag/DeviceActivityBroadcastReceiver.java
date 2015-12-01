@@ -33,8 +33,12 @@ public class DeviceActivityBroadcastReceiver extends BroadcastReceiver {
     List<BluetoothGattService> serviceList;
     List<BluetoothGattCharacteristic> charList = new ArrayList<BluetoothGattCharacteristic>();
     final DeviceActivity deviceActivity;
+    private int samplingPeriod;
 
-    public DeviceActivityBroadcastReceiver(DeviceActivity deviceActivity, List<BluetoothGattService> serviceList) {
+    public DeviceActivityBroadcastReceiver(DeviceActivity deviceActivity,
+                                           List<BluetoothGattService> serviceList,
+                                           int samplingPeriod) {
+        this.samplingPeriod = samplingPeriod;
         this.serviceList = serviceList;
         this.deviceActivity = deviceActivity;
         mFwRev = new String("1.5");
@@ -257,19 +261,19 @@ public class DeviceActivityBroadcastReceiver extends BroadcastReceiver {
                     });
                     Log.d("DeviceActivity", "Configuring service with uuid : " + s.getUuid().toString());
                     if (SensorTagGyroscopeProfile.isCorrectService(s)) {
-                        GenericBluetoothProfile profile = new SensorTagGyroscopeProfile(context, deviceActivity.mBluetoothDevice, s, deviceActivity.mBtLeService);
+                        GenericBluetoothProfile profile = new SensorTagGyroscopeProfile(context, deviceActivity.mBluetoothDevice, s, deviceActivity.mBtLeService, samplingPeriod);
                         nrNotificationsOn = addProfile(nrNotificationsOn, maxNotifications, profile);
                         Log.d("DeviceActivity", "Found Gyroscope !");
 
                     }
                     if (SensorTagAccelerometerProfile.isCorrectService(s)) {
-                        GenericBluetoothProfile profile = new SensorTagAccelerometerProfile(context, deviceActivity.mBluetoothDevice, s, deviceActivity.mBtLeService);
+                        GenericBluetoothProfile profile = new SensorTagAccelerometerProfile(context, deviceActivity.mBluetoothDevice, s, deviceActivity.mBtLeService, samplingPeriod);
                         nrNotificationsOn = addProfile(nrNotificationsOn, maxNotifications, profile);
                         Log.d("DeviceActivity", "Found Accelerometer !");
 
                     }
                     if (SensorTagMovementProfile.isCorrectService(s)) {
-                        GenericBluetoothProfile profile = new SensorTagMovementProfile(context, deviceActivity.mBluetoothDevice, s, deviceActivity.mBtLeService);
+                        GenericBluetoothProfile profile = new SensorTagMovementProfile(context, deviceActivity.mBluetoothDevice, s, deviceActivity.mBtLeService, samplingPeriod);
                         nrNotificationsOn = addProfile(nrNotificationsOn, maxNotifications, profile);
                         Log.d("DeviceActivity", "Found Accelerometer !");
 

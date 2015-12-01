@@ -73,8 +73,10 @@ import java.util.Map;
 import java.util.UUID;
 
 public class SensorTagGyroscopeProfile extends GenericBluetoothProfile {
-	public SensorTagGyroscopeProfile(Context con, BluetoothDevice device, BluetoothGattService service, BluetoothLeService controller) {
+    private int samplingPeriod;
+    public SensorTagGyroscopeProfile(Context con, BluetoothDevice device, BluetoothGattService service, BluetoothLeService controller, int samplingPeriod) {
 		super(con,device,service,controller);
+        this.samplingPeriod = samplingPeriod;
 		this.tRow =  new GenericCharacteristicTableRow(con);
 		
 		List<BluetoothGattCharacteristic> characteristics = this.mBTService.getCharacteristics();

@@ -74,8 +74,10 @@ import com.example.ti.util.GenericCharacteristicTableRow;
 import com.example.ti.util.Point3D;
 
 public class SensorTagAccelerometerProfile extends GenericBluetoothProfile implements MotionSensor {
-	public SensorTagAccelerometerProfile(Context con,BluetoothDevice device,BluetoothGattService service,BluetoothLeService controller) {
+    private int samplingPeriod;
+    public SensorTagAccelerometerProfile(Context con, BluetoothDevice device, BluetoothGattService service, BluetoothLeService controller, int samplingPeriod) {
 		super(con,device,service,controller);
+        this.samplingPeriod = samplingPeriod;
 		this.tRow =  new GenericCharacteristicTableRow(con);
 		
 		List<BluetoothGattCharacteristic> characteristics = this.mBTService.getCharacteristics();

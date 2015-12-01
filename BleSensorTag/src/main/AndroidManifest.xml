@@ -69,7 +69,7 @@
             android:screenOrientation="unspecified"
             android:configChanges="orientation|screenSize|keyboardHidden" 
             android:label="Preferences"/>
-        
+
     </application>
 
 
