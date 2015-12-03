@@ -81,7 +81,7 @@ public class DeviceActivityBroadcastReceiver extends BroadcastReceiver {
         }
     }
 
-    private void onDataRead(Intent intent) {
+    protected void onDataRead(Intent intent) {
         byte[] value = intent.getByteArrayExtra(BluetoothLeService.EXTRA_DATA);
         String uuidStr = intent.getStringExtra(BluetoothLeService.EXTRA_UUID);
         for (int ii = 0; ii < charList.size(); ii++) {
@@ -124,28 +124,7 @@ public class DeviceActivityBroadcastReceiver extends BroadcastReceiver {
                         Map<String, String> map = p.getMQTTMap();
                         if (map != null) {
                             if(p instanceof MotionSensor) {
-                                final Motion reading =((MotionSensor)p).getReading();
-                                if (deviceActivity.mqttProfile != null) {
-                                    deviceActivity.mqttProfile.addSensorReading(reading);
-                                }
-
-                                final double totalAcceleration = ConcussionDetector.getTotalAcceleration(reading);
-                                Log.d("#", "Total acceleration=" + totalAcceleration);
-                                if (totalAcceleration >= 2.0) {
-                                    deviceActivity.runOnUiThread(new Runnable() {
-                                        @Override
-                                        public void run() {
-
-                                            try {
-                                                Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-                                                Ringtone r = RingtoneManager.getRingtone(deviceActivity, notification);
-                                                r.play();
-                                            } catch (Exception e) {
-                                                e.printStackTrace();
-                                            }
-                                        }
-                                    });
-                                }
+                                deviceActivity.observeAcceleration((MotionSensor) p);
                             }
                             for (Map.Entry<String, String> e : map.entrySet()) {
                                 if (deviceActivity.mqttProfile != null) {
@@ -178,21 +157,17 @@ public class DeviceActivityBroadcastReceiver extends BroadcastReceiver {
             @Override
             public void run() {
 
-//Iterate through the services and add GenericBluetoothServices for each service
                 int nrNotificationsOn = 0;
                 int maxNotifications;
                 int servicesDiscovered = 0;
                 int totalCharacteristics = 0;
-//serviceList = mBtLeService.getSupportedGattServices();
                 for (BluetoothGattService s : serviceList) {
                     List<BluetoothGattCharacteristic> chars = s.getCharacteristics();
                     totalCharacteristics += chars.size();
                 }
-//Special profile for Cloud service
                 deviceActivity.mqttProfile = new AzureIoTCloudProfile(context, deviceActivity.mBluetoothDevice, null, deviceActivity.mBtLeService);
                 //deviceActivity.mProfiles.add(deviceActivity.mqttProfile);
                 if (totalCharacteristics == 0) {
-//Something bad happened, we have a problem
                     deviceActivity.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -206,7 +181,6 @@ public class DeviceActivityBroadcastReceiver extends BroadcastReceiver {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     deviceActivity.mBtLeService.refreshDeviceCache(deviceActivity.mBtGatt);
-//Try again
                                     deviceActivity.discoverServices();
                                 }
                             });
@@ -251,36 +225,7 @@ public class DeviceActivityBroadcastReceiver extends BroadcastReceiver {
                         return;
                     }
                     servicesDiscovered++;
-                    final float serviceDiscoveredcalc = (float) servicesDiscovered;
-                    final float serviceTotalcalc = (float) serviceList.size();
-                    deviceActivity.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            deviceActivity.progressDialog.setProgress((int) ((serviceDiscoveredcalc / (serviceTotalcalc - 1)) * 100));
-                        }
-                    });
-                    Log.d("DeviceActivity", "Configuring service with uuid : " + s.getUuid().toString());
-                    if (SensorTagGyroscopeProfile.isCorrectService(s)) {
-                        GenericBluetoothProfile profile = new SensorTagGyroscopeProfile(context, deviceActivity.mBluetoothDevice, s, deviceActivity.mBtLeService, samplingPeriod);
-                        nrNotificationsOn = addProfile(nrNotificationsOn, maxNotifications, profile);
-                        Log.d("DeviceActivity", "Found Gyroscope !");
-
-                    }
-                    if (SensorTagAccelerometerProfile.isCorrectService(s)) {
-                        GenericBluetoothProfile profile = new SensorTagAccelerometerProfile(context, deviceActivity.mBluetoothDevice, s, deviceActivity.mBtLeService, samplingPeriod);
-                        nrNotificationsOn = addProfile(nrNotificationsOn, maxNotifications, profile);
-                        Log.d("DeviceActivity", "Found Accelerometer !");
-
-                    }
-                    if (SensorTagMovementProfile.isCorrectService(s)) {
-                        GenericBluetoothProfile profile = new SensorTagMovementProfile(context, deviceActivity.mBluetoothDevice, s, deviceActivity.mBtLeService, samplingPeriod);
-                        nrNotificationsOn = addProfile(nrNotificationsOn, maxNotifications, profile);
-                        Log.d("DeviceActivity", "Found Accelerometer !");
-
-                    }
-                    if ((s.getUuid().toString().compareTo("f000ccc0-0451-4000-b000-000000000000")) == 0) {
-                        deviceActivity.mConnControlService = s;
-                    }
+                    nrNotificationsOn = discoverService(nrNotificationsOn, maxNotifications, servicesDiscovered, s, context);
                 }
                 deviceActivity.runOnUiThread(new Runnable() {
                     @Override
@@ -291,15 +236,7 @@ public class DeviceActivityBroadcastReceiver extends BroadcastReceiver {
                     }
                 });
                 for (final GenericBluetoothProfile p : deviceActivity.mProfiles) {
-
-                    deviceActivity.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            deviceActivity.mDeviceView.addRowToTable(p.getTableRow());
-                            p.enableService();
-                            deviceActivity.progressDialog.setProgress(deviceActivity.progressDialog.getProgress() + 1);
-                        }
-                    });
+                    deviceActivity.enableService(p);
                     p.onResume();
                 }
                 deviceActivity.runOnUiThread(new Runnable() {
@@ -312,6 +249,40 @@ public class DeviceActivityBroadcastReceiver extends BroadcastReceiver {
             }
         });
         worker.start();
+    }
+
+    public int discoverService(int nrNotificationsOn, int maxNotifications, float servicesDiscovered, BluetoothGattService s, Context context) {
+        final float serviceDiscoveredcalc = servicesDiscovered;
+        final float serviceTotalcalc = (float) serviceList.size();
+        deviceActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                deviceActivity.progressDialog.setProgress((int) ((serviceDiscoveredcalc / (serviceTotalcalc - 1)) * 100));
+            }
+        });
+        Log.d("DeviceActivity", "Configuring service with uuid : " + s.getUuid().toString());
+        if (SensorTagGyroscopeProfile.isCorrectService(s)) {
+            GenericBluetoothProfile profile = new SensorTagGyroscopeProfile(context, deviceActivity.mBluetoothDevice, s, deviceActivity.mBtLeService, samplingPeriod);
+            nrNotificationsOn = addProfile(nrNotificationsOn, maxNotifications, profile);
+            Log.d("DeviceActivity", "Found Gyroscope !");
+
+        }
+        if (SensorTagAccelerometerProfile.isCorrectService(s)) {
+            GenericBluetoothProfile profile = new SensorTagAccelerometerProfile(context, deviceActivity.mBluetoothDevice, s, deviceActivity.mBtLeService, samplingPeriod);
+            nrNotificationsOn = addProfile(nrNotificationsOn, maxNotifications, profile);
+            Log.d("DeviceActivity", "Found Accelerometer !");
+
+        }
+        if (SensorTagMovementProfile.isCorrectService(s)) {
+            GenericBluetoothProfile profile = new SensorTagMovementProfile(context, deviceActivity.mBluetoothDevice, s, deviceActivity.mBtLeService, samplingPeriod);
+            nrNotificationsOn = addProfile(nrNotificationsOn, maxNotifications, profile);
+            Log.d("DeviceActivity", "Found Accelerometer !");
+
+        }
+        if ((s.getUuid().toString().compareTo("f000ccc0-0451-4000-b000-000000000000")) == 0) {
+            deviceActivity.mConnControlService = s;
+        }
+        return nrNotificationsOn;
     }
 
     private int addProfile(int nrNotificationsOn, int maxNotifications, GenericBluetoothProfile profile) {

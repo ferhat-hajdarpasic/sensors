@@ -66,9 +66,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import com.example.ti.ble.sensortag.R;
-import com.example.ti.ble.sensortag.SensorTagMovementTableRow;
 import com.example.ti.util.GenericCharacteristicTableRow;
-import com.example.ti.util.SparkLineView;
 
 /**
  * Created by ole on 14/04/15.

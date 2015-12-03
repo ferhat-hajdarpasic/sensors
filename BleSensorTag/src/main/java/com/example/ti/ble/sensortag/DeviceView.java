@@ -74,7 +74,7 @@ import android.widget.TableRow;
 	public boolean first = true;
 	
 	// House-keeping
-	private DeviceActivity mActivity;
+	private DeviceActivity mDeviceActivity;
 	private boolean mBusy;
 
 	// The last two arguments ensure LayoutParams are inflated properly.
@@ -88,13 +88,13 @@ import android.widget.TableRow;
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 	    Bundle savedInstanceState) {
 		mInstance = this;
-		mActivity = (DeviceActivity) getActivity();
+		mDeviceActivity = (DeviceActivity) getActivity();
 		
 		view = inflater.inflate(R.layout.generic_services_browser, container,false);
 		table = (TableLayout) view.findViewById(R.id.generic_services_layout);
 
 		// Notify activity that UI has been inflated
-		mActivity.onViewInflated(view);
+		mDeviceActivity.onViewInflated(view);
 		
 		return view;
 	}
@@ -132,8 +132,12 @@ import android.widget.TableRow;
 	void setBusy(boolean f) {
 		if (f != mBusy)
 		{
-			mActivity.showBusyIndicator(f);
+			showBusyIndicator(f);
 			mBusy = f;
 		}
 	}
-}
+
+	protected void showBusyIndicator(boolean f) {
+		mDeviceActivity.showBusyIndicator(f);
+	}
+	}

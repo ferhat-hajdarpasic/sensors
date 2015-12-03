@@ -319,6 +319,12 @@ public class MainActivity extends ViewPagerActivity {
 		startActivityForResult(mDeviceIntent, REQ_DEVICE_ACT);
 	}
 
+	private void startHeadGearActivity() {
+		mDeviceIntent = new Intent(this, HeadGearActivity.class);
+		mDeviceIntent.putExtra(DeviceActivity.EXTRA_DEVICE, mBluetoothDevice);
+		startActivityForResult(mDeviceIntent, REQ_DEVICE_ACT);
+	}
+
 	private void stopDeviceActivity() {
 		finishActivity(REQ_DEVICE_ACT);
 	}
@@ -525,7 +531,8 @@ public class MainActivity extends ViewPagerActivity {
 				    BluetoothGatt.GATT_FAILURE);
 				if (status == BluetoothGatt.GATT_SUCCESS) {
 					setBusy(false);
-					startDeviceActivity();
+					//startDeviceActivity();
+					startHeadGearActivity();
 				} else
 					setError("Connect failed. Status: " + status);
 			} else if (BluetoothLeService.ACTION_GATT_DISCONNECTED.equals(action)) {

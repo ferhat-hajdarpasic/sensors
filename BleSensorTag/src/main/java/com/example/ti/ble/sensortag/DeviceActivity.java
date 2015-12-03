@@ -63,17 +63,17 @@ import android.app.ProgressDialog;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattService;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.content.res.XmlResourceParser;
-import android.os.AsyncTask;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-// import android.util.Log;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -87,13 +87,12 @@ import com.example.ti.ble.common.AzureIoTCloudProfile;
 import com.example.ti.ble.common.BluetoothLeService;
 import com.example.ti.ble.common.GattInfo;
 import com.example.ti.ble.common.GenericBluetoothProfile;
-import com.example.ti.ble.common.HelpView;
 import com.example.ti.ble.ti.profiles.TIOADProfile;
-import com.example.ti.ble.common.IBMIoTCloudProfile;
 
 
 
-@SuppressLint("InflateParams") public class DeviceActivity extends ViewPagerActivity {
+@SuppressLint("InflateParams")
+public class DeviceActivity extends ViewPagerActivity {
 	// Log
 	// private static String TAG = "DeviceActivity";
 
@@ -134,9 +133,7 @@ import com.example.ti.ble.common.IBMIoTCloudProfile;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-		String key = getResources().getString(R.string.sampling_frequency);
-		int samplingPeriod = Integer.parseInt(prefs.getString(key, "1000"));
+		int samplingPeriod = getSamplingPeriod(this);
 		mGattUpdateReceiver = new DeviceActivityBroadcastReceiver(this, mServiceList, samplingPeriod);
 
 		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
@@ -153,11 +150,11 @@ import com.example.ti.ble.common.IBMIoTCloudProfile;
 		String deviceName = mBluetoothDevice.getName();
 		if ((deviceName.equals("SensorTag2")) ||(deviceName.equals("CC2650 SensorTag"))) {
 			mIsSensorTag2 = true;
+		} else {
+			mIsSensorTag2 = false;
 		}
-		else mIsSensorTag2 = false;
 
 		PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
-		// Log.i(TAG, "Preferences for: " + deviceName);
 
 		// GUI
 		mDeviceView = new DeviceView();
@@ -180,6 +177,12 @@ import com.example.ti.ble.common.IBMIoTCloudProfile;
 		XmlResourceParser xpp = res.getXml(R.xml.gatt_uuid);
 		new GattInfo(xpp);
 
+	}
+
+	public static int getSamplingPeriod(Activity activity) {
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(activity);
+		String key = activity.getResources().getString(R.string.sampling_frequency);
+		return Integer.parseInt(prefs.getString(key, "1000"));
 	}
 
 	@Override
@@ -259,7 +262,7 @@ import com.example.ti.ble.common.IBMIoTCloudProfile;
 		// Log.d(TAG, "onPause");
 		super.onPause();
 	}
-	private static IntentFilter makeGattUpdateIntentFilter() {
+	public static IntentFilter makeGattUpdateIntentFilter() {
 		final IntentFilter fi = new IntentFilter();
 		fi.addAction(BluetoothLeService.ACTION_GATT_SERVICES_DISCOVERED);
 		fi.addAction(BluetoothLeService.ACTION_DATA_NOTIFY);
@@ -272,7 +275,7 @@ import com.example.ti.ble.common.IBMIoTCloudProfile;
 
 	void onViewInflated(View view) {
 		// Log.d(TAG, "Gatt view ready");
-		setBusy(true);
+		//setBusy(true);
 
 		// Set title bar to device name
 		setTitle(mBluetoothDevice.getName());
@@ -323,7 +326,7 @@ import com.example.ti.ble.common.IBMIoTCloudProfile;
 		}
 	}
 
-	private void setBusy(boolean b) {
+	protected void setBusy(boolean b) {
 		mDeviceView.setBusy(b);
 	}
 	// Activity result handling
@@ -343,5 +346,40 @@ import com.example.ti.ble.common.IBMIoTCloudProfile;
 
 	private void setStatus(String txt) {
 		Toast.makeText(this, txt, Toast.LENGTH_SHORT).show();
+	}
+	protected void observeAcceleration(MotionSensor p) {
+		final Motion reading = p.getReading();
+		if (this.mqttProfile != null) {
+			this.mqttProfile.addSensorReading(reading);
+		}
+
+		final double totalAcceleration = ConcussionDetector.getTotalAcceleration(reading);
+		Log.d("#", "Total acceleration=" + totalAcceleration);
+		if (totalAcceleration >= 2.0) {
+			this.runOnUiThread(new Runnable() {
+				@Override
+				public void run() {
+
+					try {
+						Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+						Ringtone r = RingtoneManager.getRingtone(DeviceActivity.this, notification);
+						r.play();
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+			});
+		}
+	}
+
+	public void enableService(final GenericBluetoothProfile p) {
+		runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				mDeviceView.addRowToTable(p.getTableRow());
+				p.enableService();
+				progressDialog.setProgress(progressDialog.getProgress() + 1);
+			}
+		});
 	}
 }

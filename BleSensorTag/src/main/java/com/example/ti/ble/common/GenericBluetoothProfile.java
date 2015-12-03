@@ -191,8 +191,8 @@ public class GenericBluetoothProfile {
 	public void updateSamplingPeriod(int period) {
 		if (period > 2450) {
 			period = 2450;
-		} else if (period < 100) {
-			period = 100;
+		} else if (period < 10) {
+			period = 10;
 		}
 		byte p = (byte)((period / 10) + 10);
 		Log.d("GenericBluetoothProfile","Period characteristic set to :" + period);
