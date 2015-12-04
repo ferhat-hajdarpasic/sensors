@@ -1,9 +1,11 @@
 package com.example.ti.ble.sensortag;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.support.v4.app.FragmentActivity;
+import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Legend;
@@ -17,17 +19,21 @@ import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayDeque;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Created by ferhat on 3/12/2015.
  */
 public class SampleChart implements OnChartValueSelectedListener {
-    private final Context context;
+    private final Activity activity;
     private LineChart mChart;
     private ArrayDeque<Double> fifo = new ArrayDeque<Double>();
-    public SampleChart(LineChart mChart, Context context) {
+    private boolean isRecording = false;
+
+    public SampleChart(LineChart mChart, Activity activity) {
         this.mChart = mChart;
-        this.context = context;
+        this.activity = activity;
     }
     public void addSamples(Double[] fifo, int dataSetIndex) {
 
@@ -137,10 +143,62 @@ public class SampleChart implements OnChartValueSelectedListener {
         final Double direction = ConcussionDetector.getDirection(reading);
         final Double angularAcceleration = ConcussionDetector.getAngularAcceleration(reading);
         fifo.add(totalAcceleration);
-        if(fifo.size() > 10) {
-            fifo.remove();
+        if(isRecording) {
+            addSamples(fifo.toArray(new Double[0]), 0);
+        } else {
+            if (fifo.size() > 10) {
+                fifo.remove();
+            }
+            addSamples(fifo.toArray(new Double[0]), 0);
         }
-        addSamples(fifo.toArray(new Double[0]), 0);
         return 0;
+    }
+
+    public void indicateSeverity(byte concussionSeverity) {
+        switch(concussionSeverity) {
+            case 1:
+                mChart.setBackgroundColor(Color.parseColor("#FFFF33"));
+                break;
+            case 2:
+                mChart.setBackgroundColor(Color.parseColor("#FF6633")); //Orange
+                break;
+            case 3:
+                mChart.setBackgroundColor(Color.parseColor("#FF0000"));
+                break;
+            case 4:
+                mChart.setBackgroundColor(Color.parseColor("#9900CC"));
+                break;
+            default:
+                mChart.setBackgroundColor(Color.LTGRAY);
+                break;
+        }
+    }
+
+    public void startRecording(Double[] samples) {
+        if(isRecording) {
+            return;
+        }
+        isRecording = true;
+        fifo.clear();
+        for(int i = 0; i < samples.length; i++) {
+            fifo.add(samples[i]);
+        }
+        TimerTask timerTask = new TimerTask() {
+            @Override
+            public void run() {
+                activity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        isRecording = false;
+                    }
+                });
+            }
+        };
+        Timer timer = new Timer();
+        timer.schedule(timerTask, 500);
+    }
+
+    public boolean isRecording() {
+        return isRecording;
     }
 }

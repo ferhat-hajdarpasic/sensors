@@ -61,8 +61,12 @@ public class HeadGearActivity extends DeviceActivity {
         liveStreamingChart.observeAcceleration(p);
         byte concussionSeverity = concussionDetector.concussionSeverity(p);
         if(concussionSeverity != 0x00) {
-            concussionChart.addSamples(concussionDetector.getSamples(), 0);
+            concussionChart.startRecording(concussionDetector.getSamples());
+            concussionChart.indicateSeverity(concussionSeverity);
             concussionLedInidicator.headGearLED(concussionSeverity);
+        }
+        if(concussionChart.isRecording()) {
+            concussionChart.observeAcceleration(p);
         }
     }
 
@@ -81,12 +85,12 @@ public class HeadGearActivity extends DeviceActivity {
 
     public void createStreamingChart(View rootView) {
         LineChart chart = (LineChart) rootView.findViewById(R.id.line_chart);
-        liveStreamingChart = new SampleChart(chart, rootView.getContext());
+        liveStreamingChart = new SampleChart(chart, this);
         liveStreamingChart.onCreate();
     }
     public void createConcussionChart(View rootView) {
         LineChart chart = (LineChart) rootView.findViewById(R.id.line_chart);
-        concussionChart = new SampleChart(chart, rootView.getContext());
+        concussionChart = new SampleChart(chart, this);
         concussionChart.onCreate();
     }
 }
