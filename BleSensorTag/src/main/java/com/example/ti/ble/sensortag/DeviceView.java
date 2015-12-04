@@ -116,7 +116,9 @@ import android.widget.TableRow;
 		}
 	}
     public void removeRowsFromTable() {
-        table.removeAllViews();
+		if(table != null) {
+			table.removeAllViews();
+		}
     }
 
 

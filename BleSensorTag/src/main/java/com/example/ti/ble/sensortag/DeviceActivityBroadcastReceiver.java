@@ -280,10 +280,10 @@ public class DeviceActivityBroadcastReceiver extends BroadcastReceiver {
 
         }
         if (SensorTagIoProfile.isCorrectService(s)) {
-            GenericBluetoothProfile profile =
-                    this.deviceActivity.mSensorTagIoProfile =
-                            new SensorTagIoProfile(context, deviceActivity.mBluetoothDevice, s, deviceActivity.mBtLeService);
-            nrNotificationsOn = addIoProfile(nrNotificationsOn, maxNotifications, this.deviceActivity.mSensorTagIoProfile);
+
+            final SensorTagIoProfile sensorTagIoProfile = new SensorTagIoProfile(context, deviceActivity.mBluetoothDevice, s, deviceActivity.mBtLeService);
+            this.deviceActivity.setSensorTagIoProfile(sensorTagIoProfile);
+            nrNotificationsOn = addIoProfile(nrNotificationsOn, maxNotifications, sensorTagIoProfile);
             Log.d("DeviceActivity", "Found IO Service !");
 
         }

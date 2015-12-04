@@ -24,6 +24,7 @@ import java.util.ArrayDeque;
 public class SampleChart implements OnChartValueSelectedListener {
     private final Context context;
     private LineChart mChart;
+    private ArrayDeque<Double> fifo = new ArrayDeque<Double>();
     public SampleChart(LineChart mChart, Context context) {
         this.mChart = mChart;
         this.context = context;
@@ -128,5 +129,18 @@ public class SampleChart implements OnChartValueSelectedListener {
     @Override
     public void onNothingSelected() {
 
+    }
+
+    public byte observeAcceleration(MotionSensor sensor) {
+        final Motion reading = sensor.getReading();
+        final Double totalAcceleration = ConcussionDetector.getTotalAcceleration(reading);
+        final Double direction = ConcussionDetector.getDirection(reading);
+        final Double angularAcceleration = ConcussionDetector.getAngularAcceleration(reading);
+        fifo.add(totalAcceleration);
+        if(fifo.size() > 10) {
+            fifo.remove();
+        }
+        addSamples(fifo.toArray(new Double[0]), 0);
+        return 0;
     }
 }

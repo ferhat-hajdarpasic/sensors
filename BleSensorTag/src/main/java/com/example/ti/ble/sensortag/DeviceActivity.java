@@ -122,6 +122,7 @@ public class DeviceActivity extends ViewPagerActivity {
 	List<GenericBluetoothProfile> mProfiles;
 	private DeviceActivityBroadcastReceiver mGattUpdateReceiver;
 	public SensorTagIoProfile mSensorTagIoProfile;
+	private SensorTagIoProfile sensorTagIoProfile;
 
 	public DeviceActivity() {
 		mResourceFragmentPager = R.layout.fragment_pager;
@@ -391,5 +392,7 @@ public class DeviceActivity extends ViewPagerActivity {
 	}
 
 
-
+	public void setSensorTagIoProfile(SensorTagIoProfile sensorTagIoProfile) {
+		this.sensorTagIoProfile = sensorTagIoProfile;
+	}
 }
