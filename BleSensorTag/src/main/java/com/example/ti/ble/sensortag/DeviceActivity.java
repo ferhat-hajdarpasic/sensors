@@ -160,7 +160,7 @@ public class DeviceActivity extends ViewPagerActivity {
 
 		// GUI
 		mDeviceView = new DeviceView();
-		mSectionsPagerAdapter.addSection(mDeviceView, "Sensors");
+		mSectionsPagerAdapter.addSection(mDeviceView, "ID= " + mBluetoothDevice.getAddress());
 		//HelpView hw = new HelpView();
 		//hw.setParameters("help_device.html", R.layout.fragment_help, R.id.webpage);
 		//mSectionsPagerAdapter.addSection(hw, "Help");
@@ -286,7 +286,8 @@ public class DeviceActivity extends ViewPagerActivity {
 		//setBusy(true);
 
 		// Set title bar to device name
-		setTitle(mBluetoothDevice.getName());
+		//setTitle(mBluetoothDevice.getName());
+		setTitle("Impact Monitor");
 
 		// Create GATT object
 		mBtGatt = BluetoothLeService.getBtGatt();
