@@ -105,8 +105,11 @@ public class SensorTagGatt {
       UUID_MOV_DATA = fromString("f000aa81-0451-4000-b000-000000000000"),
       UUID_MOV_CONF = fromString("f000aa82-0451-4000-b000-000000000000"), // 0: disable, bit 0: enable x, bit 1: enable y, bit 2: enable z
       UUID_MOV_PERI = fromString("f000aa83-0451-4000-b000-000000000000"), // Period in tens of milliseconds
-      
 
-      UUID_KEY_SERV = fromString("0000ffe0-0000-1000-8000-00805f9b34fb"), 
+      UUID_IO_SERV = fromString("f000aa64-0451-4000-b000-000000000000"), //FERHAT IO Control
+      UUID_IO_DATA = fromString("f000aa65-0451-4000-b000-000000000000"), //FERHAT IO Control
+      UUID_IO_CONF = fromString("f000aa66-0451-4000-b000-000000000000"), //FERHAT IO Control
+
+      UUID_KEY_SERV = fromString("0000ffe0-0000-1000-8000-00805f9b34fb"),
       UUID_KEY_DATA = fromString("0000ffe1-0000-1000-8000-00805f9b34fb");
 }

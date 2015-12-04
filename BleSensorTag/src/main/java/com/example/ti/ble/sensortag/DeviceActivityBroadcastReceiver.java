@@ -279,12 +279,27 @@ public class DeviceActivityBroadcastReceiver extends BroadcastReceiver {
             Log.d("DeviceActivity", "Found Accelerometer !");
 
         }
+        if (SensorTagIoProfile.isCorrectService(s)) {
+            GenericBluetoothProfile profile =
+                    this.deviceActivity.mSensorTagIoProfile =
+                            new SensorTagIoProfile(context, deviceActivity.mBluetoothDevice, s, deviceActivity.mBtLeService);
+            nrNotificationsOn = addIoProfile(nrNotificationsOn, maxNotifications, this.deviceActivity.mSensorTagIoProfile);
+            Log.d("DeviceActivity", "Found IO Service !");
+
+        }
         if ((s.getUuid().toString().compareTo("f000ccc0-0451-4000-b000-000000000000")) == 0) {
             deviceActivity.mConnControlService = s;
         }
         return nrNotificationsOn;
     }
 
+    private int addIoProfile(int nrNotificationsOn, int maxNotifications, SensorTagIoProfile ioProfile) {
+        if (nrNotificationsOn < maxNotifications) {
+            ioProfile.configureService();
+            nrNotificationsOn++;
+        }
+        return nrNotificationsOn;
+    }
     private int addProfile(int nrNotificationsOn, int maxNotifications, GenericBluetoothProfile profile) {
         deviceActivity.mProfiles.add(profile);
         if (nrNotificationsOn < maxNotifications) {

@@ -121,6 +121,7 @@ public class DeviceActivity extends ViewPagerActivity {
 	//GUI
 	List<GenericBluetoothProfile> mProfiles;
 	private DeviceActivityBroadcastReceiver mGattUpdateReceiver;
+	public SensorTagIoProfile mSensorTagIoProfile;
 
 	public DeviceActivity() {
 		mResourceFragmentPager = R.layout.fragment_pager;
@@ -181,8 +182,14 @@ public class DeviceActivity extends ViewPagerActivity {
 
 	public static int getSamplingPeriod(Activity activity) {
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(activity);
-		String key = activity.getResources().getString(R.string.sampling_frequency);
-		return Integer.parseInt(prefs.getString(key, "1000"));
+		final int sampling_frequency = R.string.sampling_frequency;
+		return (int)getNumber(activity, prefs, sampling_frequency, 1000);
+	}
+
+	public static float getNumber(Activity activity, SharedPreferences prefs,
+								int sampling_frequency, float defaultValue) {
+		String key = activity.getResources().getString(sampling_frequency);
+		return Float.parseFloat(prefs.getString(key, "" + defaultValue));
 	}
 
 	@Override
@@ -382,4 +389,7 @@ public class DeviceActivity extends ViewPagerActivity {
 			}
 		});
 	}
+
+
+
 }

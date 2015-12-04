@@ -41,7 +41,7 @@
             android:persistent="true"
             android:title="Important shock - Red" />
         <EditTextPreference
-            android:key="@string/purple_sever_shock"
+            android:key="@string/purple_severe_shock"
             android:summary="keep track of any shock above this acceleration"
             android:defaultValue="40"
             android:persistent="true"

@@ -110,7 +110,7 @@
     <string name="yellow_minor_shock">yellow_minor_shock</string>
     <string name="orange_medium_shock">orange_medium_shock</string>
     <string name="red_important_shock">red_important_shock</string>
-    <string name="purple_sever_shock">purple_sever_shock</string>
+    <string name="purple_severe_shock">purple_severe_shock</string>
     <string name="title_activity_head_gear">HeadGearActivity</string>
     <string name="action_settings">Settings</string>
     <string name="section_format">Hello World from section: %1$d</string>

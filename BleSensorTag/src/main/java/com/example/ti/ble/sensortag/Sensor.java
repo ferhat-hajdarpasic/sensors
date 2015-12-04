@@ -254,6 +254,18 @@ public enum Sensor {
 		}
 	},
 
+	IO(UUID_IO_SERV, UUID_IO_DATA, UUID_IO_CONF, (byte)7) {
+		@Override
+		public Point3D convert(final byte [] value) {
+
+			float y = shortSignedAtOffset(value, 0) * (500f / 65536f) * -1;
+			float x = shortSignedAtOffset(value, 2) * (500f / 65536f);
+			float z = shortSignedAtOffset(value, 4) * (500f / 65536f);
+
+			return new Point3D(x,y,z);
+		}
+	},
+
 	BAROMETER(SensorTagGatt.UUID_BAR_SERV, SensorTagGatt.UUID_BAR_DATA, SensorTagGatt.UUID_BAR_CONF) {
 		@Override
 		public Point3D convert(final byte [] value) {

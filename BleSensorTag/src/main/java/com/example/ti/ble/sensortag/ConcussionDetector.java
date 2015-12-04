@@ -10,4 +10,12 @@ public class ConcussionDetector {
         Point3D p = motion.getAccelerometer().getReading();
         return Math.sqrt(p.x*p.x + p.y*p.y+ p.z*p.z);
     }
+
+    public static Double getDirection(Motion reading) {
+        return null;
+    }
+
+    public static Double getAngularAcceleration(Motion reading) {
+        return null;
+    }
 }
