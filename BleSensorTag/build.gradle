@@ -1,26 +1,40 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        config {
+            keyAlias 'impactmonitor'
+            keyPassword 'impactmonitor'
+            storeFile file('C:/Temp/impactmonitor')
+            storePassword 'impactmonitor'
+        }
+    }
     compileSdkVersion 21
     buildToolsVersion "21.1.2"
-
     defaultConfig {
-        applicationId "com.example.ti.ble.sensortag"
+        applicationId "com.whitespider.impact.ble.sensortag"
         minSdkVersion 18
         targetSdkVersion 21
+        signingConfig signingConfigs.config
+        multiDexEnabled true
     }
-
     buildTypes {
         release {
-            debuggable true
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+            debuggable false
+            signingConfig signingConfigs.config
         }
         debug {
             debuggable true
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
         }
+    }
+    productFlavors {
+    }
+    dexOptions {
+        javaMaxHeapSize "4g"
     }
 }
 
@@ -32,9 +46,16 @@ dependencies {
     compile 'com.google.code.gson:gson:2.4'
     compile 'com.android.support:support-v13:21.0.3'
     compile 'com.github.PhilJay:MPAndroidChart:v2.1.6'
+    compile 'com.google.android.gms:play-services:8.3.0'
+    compile "com.badlogicgames.gdx:gdx-backend-android:1.7.1"
+    compile "com.badlogicgames.gdx:gdx:1.7.1"
+    compile "com.badlogicgames.gdx:gdx-box2d:1.7.1"
+    compile 'com.android.support:multidex:1.0.0'
 }
 
-
 repositories {
+    mavenCentral()
+    maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+    maven { url "https://oss.sonatype.org/content/repositories/releases/" }
     maven { url "https://jitpack.io" }
 }
