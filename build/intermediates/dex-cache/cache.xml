@@ -2,46 +2,284 @@
 <items version="2" >
 
     <item
-        jar="C:\Users\ferhat\.gradle\caches\modules-2\files-2.1\cz.msebera.android\httpclient\4.3.6\526a9f794eab830eae4f23a62c572878b3f491ab\httpclient-4.3.6.jar"
+        jar="C:\Users\ferhat\sensortag-20-android\sensortag20\BleSensorTag\build\intermediates\exploded-aar\com.android.support\support-v4\22.2.0\jars\libs\internal_impl-22.2.0.jar"
         jumboMode="false"
         revision="21.1.2"
-        sha1="526a9f794eab830eae4f23a62c572878b3f491ab">
-        <dex dex="C:\Users\ferhat\sensortag-20-android\sensortag20\BleSensorTag\build\intermediates\pre-dexed\debug\httpclient-4.3.6-b5fb15bc62d9a898e0fc2bf5267f49a2399d99a5.jar" />
+        sha1="57f2ab85c164ff1676ec64dee787981c046fab79">
+        <dex dex="C:\Users\ferhat\sensortag-20-android\sensortag20\BleSensorTag\build\intermediates\pre-dexed\debug\internal_impl-22.2.0_e68223a6ae54d4644d7837d6bf3c64276616132e.jar" />
     </item>
     <item
-        jar="C:\Users\ferhat\sensortag-20-android\sensortag20\BleSensorTag\libs\org.eclipse.paho.android.service-1.0.2.jar"
+        jar="C:\Users\ferhat\sensortag-20-android\sensortag20\BleSensorTag\build\intermediates\exploded-aar\com.android.support\mediarouter-v7\22.2.0\jars\classes.jar"
         jumboMode="false"
         revision="21.1.2"
-        sha1="3b8420e57139cc627a55be0c17b6687e92d7460f">
-        <dex dex="C:\Users\ferhat\sensortag-20-android\sensortag20\BleSensorTag\build\intermediates\pre-dexed\debug\org.eclipse.paho.android.service-1.0.2-6cb6ad7c6f5f4fb5fd26467f147834a23cf9bb3f.jar" />
+        sha1="dcf8c83c3dead00a6c4fe313e95f7aaca20dc641">
+        <dex dex="C:\Users\ferhat\sensortag-20-android\sensortag20\BleSensorTag\build\intermediates\pre-dexed\debug\com.android.support-mediarouter-v7-22.2.0_4156e3116174bba918b075331ec6c2a4f8ff4bcf.jar" />
     </item>
     <item
         jar="C:\Users\ferhat\sensortag-20-android\sensortag20\BleSensorTag\libs\org.eclipse.paho.client.mqttv3-1.0.2.jar"
         jumboMode="false"
         revision="21.1.2"
         sha1="02e433eb0fda11fe7170cf8214ba2f4d165c29b6">
-        <dex dex="C:\Users\ferhat\sensortag-20-android\sensortag20\BleSensorTag\build\intermediates\pre-dexed\debug\org.eclipse.paho.client.mqttv3-1.0.2-aa7619e72af4d177c531eb59db92fdd7d83166d8.jar" />
+        <dex dex="C:\Users\ferhat\sensortag-20-android\sensortag20\BleSensorTag\build\intermediates\pre-dexed\debug\org.eclipse.paho.client.mqttv3-1.0.2_aa7619e72af4d177c531eb59db92fdd7d83166d8.jar" />
     </item>
     <item
-        jar="C:\Users\ferhat\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-v4\19.1.0\support-v4-19.1.0.jar"
+        jar="C:\Users\ferhat\sensortag-20-android\sensortag20\BleSensorTag\build\intermediates\exploded-aar\com.google.android.gms\play-services-identity\8.3.0\jars\classes.jar"
         jumboMode="false"
         revision="21.1.2"
-        sha1="85f201b380937e61a9dce6ca90ccf6872abbfb67">
-        <dex dex="C:\Users\ferhat\sensortag-20-android\sensortag20\BleSensorTag\build\intermediates\pre-dexed\debug\support-v4-19.1.0-b01db61b5dc1759927111885e0ea77e4600e2147.jar" />
+        sha1="4b8df1b1e51fe14b0e89b3845dc2e215a024a09f">
+        <dex dex="C:\Users\ferhat\sensortag-20-android\sensortag20\BleSensorTag\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-identity-8.3.0_c30528cb082a2e3240897cbe81722f0b53ae43d8.jar" />
     </item>
     <item
-        jar="C:\Users\ferhat\.gradle\caches\modules-2\files-2.1\com.google.code.gson\gson\2.4\695b63d702f505b9b916e02272e3b6381bade7f\gson-2.4.jar"
+        jar="C:\Users\ferhat\AppData\Local\Android\sdk1\extras\android\m2repository\com\android\support\support-annotations\22.2.0\support-annotations-22.2.0.jar"
         jumboMode="false"
         revision="21.1.2"
-        sha1="0695b63d702f505b9b916e02272e3b6381bade7f">
-        <dex dex="C:\Users\ferhat\sensortag-20-android\sensortag20\BleSensorTag\build\intermediates\pre-dexed\debug\gson-2.4-f458af6863535d6f24199b61b27e44ab3550eae6.jar" />
+        sha1="66b42a1f3eb7676070b7ef7f14b603483aecbee1">
+        <dex dex="C:\Users\ferhat\sensortag-20-android\sensortag20\BleSensorTag\build\intermediates\pre-dexed\debug\support-annotations-22.2.0_e249fcfaa91255e1709849100bfadbbcd63719fd.jar" />
+    </item>
+    <item
+        jar="C:\Users\ferhat\sensortag-20-android\sensortag20\BleSensorTag\build\intermediates\exploded-aar\com.google.android.gms\play-services-analytics\8.3.0\jars\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="af6ee25641df3142059c0828517aa7ee6eba08d6">
+        <dex dex="C:\Users\ferhat\sensortag-20-android\sensortag20\BleSensorTag\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-analytics-8.3.0_62f6fec4a8434a4a92f4c12aeff46357a38318ee.jar" />
+    </item>
+    <item
+        jar="C:\Users\ferhat\sensortag-20-android\sensortag20\BleSensorTag\build\intermediates\exploded-aar\com.google.android.gms\play-services-nearby\8.3.0\jars\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="eb576427887e497cd958a475475f9206e38dc314">
+        <dex dex="C:\Users\ferhat\sensortag-20-android\sensortag20\BleSensorTag\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-nearby-8.3.0_8a3eefc22ed4be2a0b3c730e3ec3fc8dcba2c476.jar" />
+    </item>
+    <item
+        jar="C:\Users\ferhat\sensortag-20-android\sensortag20\BleSensorTag\build\intermediates\exploded-aar\com.google.android.gms\play-services-ads\8.3.0\jars\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="27775d59b16610ac76f1b83693fedd9520396332">
+        <dex dex="C:\Users\ferhat\sensortag-20-android\sensortag20\BleSensorTag\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-ads-8.3.0_3a8892dcb0811d5dddd7e194d71db69321e75c30.jar" />
+    </item>
+    <item
+        jar="C:\Users\ferhat\.gradle\caches\modules-2\files-2.1\com.badlogicgames.gdx\gdx-box2d\1.7.1\fd23897393900f8f888222795e3229eff600fb3d\gdx-box2d-1.7.1.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="fd23897393900f8f888222795e3229eff600fb3d">
+        <dex dex="C:\Users\ferhat\sensortag-20-android\sensortag20\BleSensorTag\build\intermediates\pre-dexed\debug\gdx-box2d-1.7.1_a23d4e8e245942b01ad3397ae803a2da61f5e05e.jar" />
+    </item>
+    <item
+        jar="C:\Users\ferhat\sensortag-20-android\sensortag20\BleSensorTag\build\intermediates\exploded-aar\com.google.android.gms\play-services-wearable\8.3.0\jars\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="9aedc597d74c6d77258ce5236e9abff0c3cc65e3">
+        <dex dex="C:\Users\ferhat\sensortag-20-android\sensortag20\BleSensorTag\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-wearable-8.3.0_256394812214d1f344619f0e3cae5d507e19782e.jar" />
+    </item>
+    <item
+        jar="C:\Users\ferhat\sensortag-20-android\sensortag20\BleSensorTag\build\intermediates\exploded-aar\com.android.support\support-v4\22.2.0\jars\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="1ee588ff2c4daf7b97c1cbf922a6c7f027285c2f">
+        <dex dex="C:\Users\ferhat\sensortag-20-android\sensortag20\BleSensorTag\build\intermediates\pre-dexed\debug\com.android.support-support-v4-22.2.0_15d33f35e9c5339d8f3229bac9b4633b3e7ff90c.jar" />
+    </item>
+    <item
+        jar="C:\Users\ferhat\sensortag-20-android\sensortag20\BleSensorTag\build\intermediates\exploded-aar\com.google.android.gms\play-services-maps\8.3.0\jars\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="77f9593d979f4347344be233bd0d888315f79517">
+        <dex dex="C:\Users\ferhat\sensortag-20-android\sensortag20\BleSensorTag\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-maps-8.3.0_dd201672ba35f203f27f7bdc1bd25c369f923857.jar" />
+    </item>
+    <item
+        jar="C:\Users\ferhat\sensortag-20-android\sensortag20\BleSensorTag\libs\org.eclipse.paho.android.service-1.0.2.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="3b8420e57139cc627a55be0c17b6687e92d7460f">
+        <dex dex="C:\Users\ferhat\sensortag-20-android\sensortag20\BleSensorTag\build\intermediates\pre-dexed\debug\org.eclipse.paho.android.service-1.0.2_6cb6ad7c6f5f4fb5fd26467f147834a23cf9bb3f.jar" />
+    </item>
+    <item
+        jar="C:\Users\ferhat\sensortag-20-android\sensortag20\BleSensorTag\build\intermediates\exploded-aar\com.android.support\support-v13\21.0.3\jars\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="2c2071dcaf7a008c3b01a6381a33be55396bab09">
+        <dex dex="C:\Users\ferhat\sensortag-20-android\sensortag20\BleSensorTag\build\intermediates\pre-dexed\debug\com.android.support-support-v13-21.0.3_b558e8dccd848e89dedd46df07bdcf2637f8178d.jar" />
+    </item>
+    <item
+        jar="C:\Users\ferhat\sensortag-20-android\sensortag20\BleSensorTag\build\intermediates\exploded-aar\com.google.android.gms\play-services-auth\8.3.0\jars\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="fd76d95678a6b2b8a49bb8a9fb5bcef7aedb70e7">
+        <dex dex="C:\Users\ferhat\sensortag-20-android\sensortag20\BleSensorTag\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-auth-8.3.0_99d9ca1715e31cf742570e3b0eee6e01cd50a186.jar" />
+    </item>
+    <item
+        jar="C:\Users\ferhat\sensortag-20-android\sensortag20\BleSensorTag\build\intermediates\exploded-aar\com.google.android.gms\play-services-location\8.3.0\jars\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="6d9ed9a288364688e7fcf6704776284dac1eb42e">
+        <dex dex="C:\Users\ferhat\sensortag-20-android\sensortag20\BleSensorTag\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-location-8.3.0_0191226ee660e49beb46b58aadd0e6332f572a36.jar" />
+    </item>
+    <item
+        jar="C:\Users\ferhat\sensortag-20-android\sensortag20\BleSensorTag\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\8.3.0\jars\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="01a90bbb9495a8bbf6f3cfdf12f1b35caaa9524b">
+        <dex dex="C:\Users\ferhat\sensortag-20-android\sensortag20\BleSensorTag\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-base-8.3.0_1c3ea3bbb6862340e301990802ac2c25f3a8b8be.jar" />
     </item>
     <item
         jar="C:\Users\ferhat\.gradle\caches\modules-2\files-2.1\com.loopj.android\android-async-http\1.4.9\386a4339ffe52d5d63e80f9bed8d2b1d1a418249\android-async-http-1.4.9.jar"
         jumboMode="false"
         revision="21.1.2"
         sha1="386a4339ffe52d5d63e80f9bed8d2b1d1a418249">
-        <dex dex="C:\Users\ferhat\sensortag-20-android\sensortag20\BleSensorTag\build\intermediates\pre-dexed\debug\android-async-http-1.4.9-bb9f3903e122c2160ac4e37eab0d6efd482d2004.jar" />
+        <dex dex="C:\Users\ferhat\sensortag-20-android\sensortag20\BleSensorTag\build\intermediates\pre-dexed\debug\android-async-http-1.4.9_bb9f3903e122c2160ac4e37eab0d6efd482d2004.jar" />
+    </item>
+    <item
+        jar="C:\Users\ferhat\sensortag-20-android\sensortag20\BleSensorTag\build\intermediates\exploded-aar\com.google.android.gms\play-services-vision\8.3.0\jars\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="724ce977487ab3a215d4d2eb47d8dccd9f30013f">
+        <dex dex="C:\Users\ferhat\sensortag-20-android\sensortag20\BleSensorTag\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-vision-8.3.0_8f6d7fc0529aa9a351e13b710dda75008749cd67.jar" />
+    </item>
+    <item
+        jar="C:\Users\ferhat\.gradle\caches\modules-2\files-2.1\com.google.code.gson\gson\2.4\695b63d702f505b9b916e02272e3b6381bade7f\gson-2.4.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="0695b63d702f505b9b916e02272e3b6381bade7f">
+        <dex dex="C:\Users\ferhat\sensortag-20-android\sensortag20\BleSensorTag\build\intermediates\pre-dexed\debug\gson-2.4_f458af6863535d6f24199b61b27e44ab3550eae6.jar" />
+    </item>
+    <item
+        jar="C:\Users\ferhat\sensortag-20-android\sensortag20\BleSensorTag\build\intermediates\exploded-aar\com.android.support\appcompat-v7\22.2.0\jars\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="73753982da6bde518f3a4c6b372749981d14d1a0">
+        <dex dex="C:\Users\ferhat\sensortag-20-android\sensortag20\BleSensorTag\build\intermediates\pre-dexed\debug\com.android.support-appcompat-v7-22.2.0_eaf857027c44fbf469edccefcf2560f621f35d95.jar" />
+    </item>
+    <item
+        jar="C:\Users\ferhat\sensortag-20-android\sensortag20\BleSensorTag\build\intermediates\exploded-aar\com.google.android.gms\play-services-measurement\8.3.0\jars\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="b000ecceb9877fefcdc7ab1959ff03df91551656">
+        <dex dex="C:\Users\ferhat\sensortag-20-android\sensortag20\BleSensorTag\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-measurement-8.3.0_6b8f90f1ca05b8935101b69e5190b13dbd9999f5.jar" />
+    </item>
+    <item
+        jar="C:\Users\ferhat\.gradle\caches\modules-2\files-2.1\com.badlogicgames.gdx\gdx-backend-android\1.7.1\454871d4783564f17959bf9247660e7f56ecc4ab\gdx-backend-android-1.7.1.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="454871d4783564f17959bf9247660e7f56ecc4ab">
+        <dex dex="C:\Users\ferhat\sensortag-20-android\sensortag20\BleSensorTag\build\intermediates\pre-dexed\debug\gdx-backend-android-1.7.1_3e4a24c7d078b3170d220715a1d1cbfa96bb576b.jar" />
+    </item>
+    <item
+        jar="C:\Users\ferhat\sensortag-20-android\sensortag20\BleSensorTag\build\intermediates\exploded-aar\com.google.android.gms\play-services-gcm\8.3.0\jars\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="71eda10e33212e44245524b5087366ff8d805825">
+        <dex dex="C:\Users\ferhat\sensortag-20-android\sensortag20\BleSensorTag\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-gcm-8.3.0_1d8a2b6b6b0d66333de5902360888979fe83ba25.jar" />
+    </item>
+    <item
+        jar="C:\Users\ferhat\sensortag-20-android\sensortag20\BleSensorTag\build\intermediates\exploded-aar\com.google.android.gms\play-services-wallet\8.3.0\jars\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="9c9bdb4b2497465a6cf7d5e8f57c5298f828a380">
+        <dex dex="C:\Users\ferhat\sensortag-20-android\sensortag20\BleSensorTag\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-wallet-8.3.0_0f156b6bd53f0c29391387ecbafca5ec0010edf5.jar" />
+    </item>
+    <item
+        jar="C:\Users\ferhat\sensortag-20-android\sensortag20\BleSensorTag\build\intermediates\exploded-aar\com.google.android.gms\play-services-fitness\8.3.0\jars\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="697679619b00837e3d09e9988a2e1e2a9009d502">
+        <dex dex="C:\Users\ferhat\sensortag-20-android\sensortag20\BleSensorTag\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-fitness-8.3.0_9f0e0b8e0f24c9d2660434ebddce2ee01483d1ff.jar" />
+    </item>
+    <item
+        jar="C:\Users\ferhat\sensortag-20-android\sensortag20\BleSensorTag\build\intermediates\exploded-aar\com.google.android.gms\play-services-appinvite\8.3.0\jars\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="58adcfbe2c8393765e84c5489d01bba6a5159eb2">
+        <dex dex="C:\Users\ferhat\sensortag-20-android\sensortag20\BleSensorTag\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-appinvite-8.3.0_84b819e41b4596dba9146c0ee2037175ad32dd5d.jar" />
+    </item>
+    <item
+        jar="C:\Users\ferhat\sensortag-20-android\sensortag20\BleSensorTag\build\intermediates\exploded-aar\com.google.android.gms\play-services-safetynet\8.3.0\jars\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="ea34579b1be157cd792376362157e9c54ebb4cd7">
+        <dex dex="C:\Users\ferhat\sensortag-20-android\sensortag20\BleSensorTag\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-safetynet-8.3.0_94871b95e416463100732c24674f12f30c5a2ad1.jar" />
+    </item>
+    <item
+        jar="C:\Users\ferhat\.gradle\caches\modules-2\files-2.1\com.github.PhilJay\MPAndroidChart\v2.1.6\b036abbb61656165da99cf44898e4b9123687e65\MPAndroidChart-v2.1.6.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="b036abbb61656165da99cf44898e4b9123687e65">
+        <dex dex="C:\Users\ferhat\sensortag-20-android\sensortag20\BleSensorTag\build\intermediates\pre-dexed\debug\MPAndroidChart-v2.1.6_8052d2bf051914aa0390847174bc11b66ac9c24e.jar" />
+    </item>
+    <item
+        jar="C:\Users\ferhat\sensortag-20-android\sensortag20\BleSensorTag\build\intermediates\exploded-aar\com.google.android.gms\play-services-games\8.3.0\jars\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="2c6fcd6267cbac6509a2e72a61127534a1d616cf">
+        <dex dex="C:\Users\ferhat\sensortag-20-android\sensortag20\BleSensorTag\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-games-8.3.0_bf6219a71a2bb4d5f039cfe878772003b697369c.jar" />
+    </item>
+    <item
+        jar="C:\Users\ferhat\sensortag-20-android\sensortag20\BleSensorTag\build\intermediates\exploded-aar\com.google.android.gms\play-services-drive\8.3.0\jars\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="0a1897426566e408a5c20a3d931f77d89771d07f">
+        <dex dex="C:\Users\ferhat\sensortag-20-android\sensortag20\BleSensorTag\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-drive-8.3.0_c64166899044075821b86a9d48a1fc79eb4255c6.jar" />
+    </item>
+    <item
+        jar="C:\Users\ferhat\sensortag-20-android\sensortag20\BleSensorTag\build\intermediates\exploded-aar\com.google.android.gms\play-services-basement\8.3.0\jars\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="345a1b5cf5b144ce18ba6962bc66a7e2f26c1c1b">
+        <dex dex="C:\Users\ferhat\sensortag-20-android\sensortag20\BleSensorTag\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-basement-8.3.0_c20415e7fc58967e59829edfdf6911504d5e8bea.jar" />
+    </item>
+    <item
+        jar="C:\Users\ferhat\sensortag-20-android\sensortag20\BleSensorTag\build\intermediates\exploded-aar\com.google.android.gms\play-services-plus\8.3.0\jars\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="0af4f577b4a21eb9be2a7f52e33b077b67e6d9f8">
+        <dex dex="C:\Users\ferhat\sensortag-20-android\sensortag20\BleSensorTag\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-plus-8.3.0_c1dcd1eb9c569047fbecccab5c1c2d41357635f5.jar" />
+    </item>
+    <item
+        jar="C:\Users\ferhat\sensortag-20-android\sensortag20\BleSensorTag\build\intermediates\exploded-aar\com.android.support\mediarouter-v7\22.2.0\jars\libs\internal_impl-22.2.0.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="0632f06970823b7e3436f649bfa65b47035c91d0">
+        <dex dex="C:\Users\ferhat\sensortag-20-android\sensortag20\BleSensorTag\build\intermediates\pre-dexed\debug\internal_impl-22.2.0_758a11c3353ead2f7b747cafa8149ec72df0051e.jar" />
+    </item>
+    <item
+        jar="C:\Users\ferhat\sensortag-20-android\sensortag20\BleSensorTag\build\intermediates\exploded-aar\com.google.android.gms\play-services-cast\8.3.0\jars\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="cb4af597d079ffdc0984a3ec2c03cbf6a1b9f869">
+        <dex dex="C:\Users\ferhat\sensortag-20-android\sensortag20\BleSensorTag\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-cast-8.3.0_ca4d0eb2ece7d340a2ca7e0fe02d511a447177f2.jar" />
+    </item>
+    <item
+        jar="C:\Users\ferhat\.gradle\caches\modules-2\files-2.1\cz.msebera.android\httpclient\4.3.6\526a9f794eab830eae4f23a62c572878b3f491ab\httpclient-4.3.6.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="526a9f794eab830eae4f23a62c572878b3f491ab">
+        <dex dex="C:\Users\ferhat\sensortag-20-android\sensortag20\BleSensorTag\build\intermediates\pre-dexed\debug\httpclient-4.3.6_b5fb15bc62d9a898e0fc2bf5267f49a2399d99a5.jar" />
+    </item>
+    <item
+        jar="C:\Users\ferhat\sensortag-20-android\sensortag20\BleSensorTag\build\intermediates\exploded-aar\com.google.android.gms\play-services-appindexing\8.3.0\jars\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="0c3e81d3eb86b86d194b5cdb6a4de78203f6f7fd">
+        <dex dex="C:\Users\ferhat\sensortag-20-android\sensortag20\BleSensorTag\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-appindexing-8.3.0_e9563b8ab96e556c3889116ffd2f970430786923.jar" />
+    </item>
+    <item
+        jar="C:\Users\ferhat\sensortag-20-android\sensortag20\BleSensorTag\build\intermediates\exploded-aar\com.google.android.gms\play-services-panorama\8.3.0\jars\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="744c49c02a27569cc4cc049685d3649e4ef439f2">
+        <dex dex="C:\Users\ferhat\sensortag-20-android\sensortag20\BleSensorTag\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-panorama-8.3.0_cd8937b33b054e13fde542187050c193a8d9f9e8.jar" />
+    </item>
+    <item
+        jar="C:\Users\ferhat\sensortag-20-android\sensortag20\BleSensorTag\build\intermediates\exploded-aar\com.android.support\support-v13\21.0.3\jars\libs\internal_impl-21.0.3.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="0dcc55e70f7ebf7238fe2ec53f662eb378ab2668">
+        <dex dex="C:\Users\ferhat\sensortag-20-android\sensortag20\BleSensorTag\build\intermediates\pre-dexed\debug\internal_impl-21.0.3_936c533a290604eb28635c6f03ed437a56e46809.jar" />
+    </item>
+    <item
+        jar="C:\Users\ferhat\.gradle\caches\modules-2\files-2.1\com.badlogicgames.gdx\gdx\1.7.1\2179cc613447c297623a4a6d2ba6692c3aaff804\gdx-1.7.1.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="2179cc613447c297623a4a6d2ba6692c3aaff804">
+        <dex dex="C:\Users\ferhat\sensortag-20-android\sensortag20\BleSensorTag\build\intermediates\pre-dexed\debug\gdx-1.7.1_c0c159ceaacb0c9628ad3ade8e7912f8f1ac8e72.jar" />
     </item>
 
 </items>

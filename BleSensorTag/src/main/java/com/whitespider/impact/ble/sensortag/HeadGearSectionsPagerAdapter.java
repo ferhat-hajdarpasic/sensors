@@ -9,8 +9,7 @@ public class HeadGearSectionsPagerAdapter extends FragmentPagerAdapter {
             new DebugFragment(),
             new LiveDataFragment(),
             new ConcussionEventFragment(),
-            new ImpactIllustration(),
-            new IlustrationHolderFragment()
+            new ImpactIllustration()
     };
 
     public HeadGearSectionsPagerAdapter(FragmentManager fm) {
