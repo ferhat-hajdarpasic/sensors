@@ -3,7 +3,10 @@
 
     <!--
         Base application theme, dependent on API level. This theme is replaced
-        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
+        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
+
+
+
     -->
     <style name="AppBaseTheme" parent="android:Theme.Light">
         <!--
@@ -58,11 +61,11 @@
 
     <style name="dirStyle">
         <item name="android:textColor">#003</item>
-				<item name="android:textSize">20dp</item>
-				<item name="android:layout_margin">10dp</item>
-				<item name="android:gravity">center_horizontal</item>
+        <item name="android:textSize">20dp</item>
+        <item name="android:layout_margin">10dp</item>
+        <item name="android:gravity">center_horizontal</item>
     </style>
-    
+
     <style name="dataStyle">
         <item name="android:background">#fff</item>
         <item name="android:textSize">16dp</item>
@@ -125,7 +128,7 @@
         <item name="android:textSize">16dp</item>
     </style>
 
-    
+
     <style name="ServiceHeaderRow">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
@@ -154,7 +157,7 @@
         <item name="android:layout_marginTop">10dp</item>
         <item name="android:textSize">18dp</item>
     </style>
-    
+
     <style name="ServiceItemValue">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
@@ -163,5 +166,17 @@
         <item name="android:layout_marginTop">10dp</item>
         <item name="android:layout_marginRight">30dp</item>
         <item name="android:textSize">18dp</item>
+    </style>
+
+    <style name="FullscreenTheme" parent="@android:style/Theme.Holo.Light">
+        <item name="android:actionBarStyle">@style/FullscreenActionBarStyle</item>
+        <item name="android:windowActionBarOverlay">true</item>
+        <item name="android:windowBackground">@null</item>
+        <item name="metaButtonBarStyle">?android:attr/buttonBarStyle</item>
+        <item name="metaButtonBarButtonStyle">?android:attr/buttonBarButtonStyle</item>
+    </style>
+
+    <style name="FullscreenActionBarStyle" parent="android:Widget.Holo.ActionBar">
+        <item name="android:background">@color/black_overlay</item>
     </style>
 </resources>

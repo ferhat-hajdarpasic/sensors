@@ -12,10 +12,11 @@
         android:showAsAction="ifRoom"
         android:icon="@drawable/ic_action_settings" 
         android:title="@string/prefs"/>
-    <!--  <item
-        android:id="@+id/opt_fwupdate"
-        android:title="@string/fwupdate"/>
     <item
+        android:id="@+id/visual"
+        android:showAsAction="ifRoom"
+        android:title="@string/visual"/>
+    <!--<item
         android:id="@+id/opt_about"
         android:icon="@drawable/ic_action_about" 
         android:title="@string/about"/>

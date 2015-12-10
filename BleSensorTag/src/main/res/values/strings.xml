@@ -29,7 +29,7 @@
     <string name="prefs">Preferences</string>
     <string name="progress"></string>
     <string name="agree">I agree</string>
-    <string name="fwupdate">Firmware update</string>
+    <string name="visual">Visual</string>
     <string name="bt">Bluetooth Adapter</string>
     <string name="sthome">SensorTag Home</string>
     <string name="tie2e">TI E2E Community</string>
@@ -119,5 +119,9 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="title_activity_fullscreen">FullscreenActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 
 </resources>

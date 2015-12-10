@@ -6,7 +6,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.ti.ble.sensortag.HeadGearActivity$PlaceholderFragment">
+    tools:context="com.whitespider.impact.ble.sensortag.HeadGearActivity$PlaceholderFragment">
 
     <TextView
         android:id="@+id/section_label"
@@ -21,4 +21,37 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true" />
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="200px"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:id="@+id/textViewAcceleration"
+        android:layout_marginLeft="70px"
+        android:textColor="#a29ea6"
+        android:textSize="60dp"
+        android:layout_marginBottom="101dp"
+        android:layout_alignBottom="@+id/line_chart"
+        android:layout_alignEnd="@+id/line_chart"
+        android:layout_alignParentTop="false"
+        android:layout_alignParentLeft="false"
+        android:layout_alignParentBottom="false"
+        android:layout_alignParentRight="false"
+        android:layout_alignWithParentIfMissing="false"
+        android:layout_centerInParent="true"
+        android:elegantTextHeight="false"
+        android:textAlignment="center"
+        android:textIsSelectable="false"
+        android:singleLine="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:id="@+id/xyzAcceleration"
+        android:layout_alignBottom="@+id/line_chart"
+        android:layout_alignStart="@+id/textViewAcceleration"
+        android:layout_marginBottom="69dp"
+        android:layout_alignEnd="@+id/line_chart" />
+
 </RelativeLayout>
