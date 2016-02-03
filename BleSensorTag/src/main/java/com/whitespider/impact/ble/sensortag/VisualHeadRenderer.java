@@ -160,7 +160,7 @@ public class VisualHeadRenderer extends ApplicationAdapter {
 	public void dispose() {
 		super.dispose();
 		modelBatch.dispose();
-		head.dispose();
-		arrow.dispose();
+		//head.dispose();
+		//arrow.dispose();
 	}
 }

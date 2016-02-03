@@ -1,16 +1,16 @@
 package com.whitespider.impact.ble.sensortag;
 
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.support.v13.app.FragmentPagerAdapter;
 
 public class HeadGearSectionsPagerAdapter extends FragmentPagerAdapter {
     private Fragment[] fragments = new Fragment[] {
-//            new VisualHeadFragment(),
             new DebugFragment(),
+            new HistoryItemFragment(),
             new LiveDataFragment(),
-            new ConcussionEventFragment()
-
+            new ConcussionEventFragment(),
+            new HistoryItemFragment()
     };
 
     public HeadGearSectionsPagerAdapter(FragmentManager fm) {
@@ -36,8 +36,6 @@ public class HeadGearSectionsPagerAdapter extends FragmentPagerAdapter {
                 return "SECTION 2";
             case 2:
                 return "SECTION 3";
-            case 4:
-                return "SECTION 4";
         }
         return null;
     }

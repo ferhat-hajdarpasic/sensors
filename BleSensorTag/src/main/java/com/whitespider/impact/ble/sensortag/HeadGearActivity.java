@@ -2,17 +2,15 @@ package com.whitespider.impact.ble.sensortag;
 
 import android.bluetooth.BluetoothGattService;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.os.Bundle;
-import android.support.v4.app.FragmentTransaction;
+import android.preference.PreferenceManager;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
 
-import com.whitespider.impact.ble.common.GenericBluetoothProfile;
 import com.github.mikephil.charting.charts.LineChart;
+import com.whitespider.impact.ble.common.GenericBluetoothProfile;
 
 import java.util.ArrayList;
 
@@ -24,16 +22,14 @@ public class HeadGearActivity extends DeviceActivity {
     private SampleChart concussionChart;
     private ConcussionDetector concussionDetector;
     private ConcussionLedInidicator concussionLedInidicator;
-    private TextView accelerationDetails;
-    private TextView xyzAccelerationDetails;
+    private CsvFileWriter csvFileWriter = new CsvFileWriter();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_head_gear);
         getActionBar().setDisplayHomeAsUpEnabled(true);
-        mSectionsPagerAdapter = new HeadGearSectionsPagerAdapter(getSupportFragmentManager());
+        mSectionsPagerAdapter = new HeadGearSectionsPagerAdapter(getFragmentManager());
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
@@ -71,13 +67,8 @@ public class HeadGearActivity extends DeviceActivity {
                 concussionChart.startRecording(concussionDetector.getSamples());
                 concussionChart.indicateSeverity(concussionSeverity);
                 concussionLedInidicator.headGearLED(concussionSeverity);
-                final Motion reading = p.getReading();
-                this.accelerationDetails.setText(
-                        String.format("Total %2.2fG.", ConcussionDetector.getTotalAcceleration(reading)));
-                this.xyzAccelerationDetails.setText(String.format("X = %2.2fdG, Y = %2.2fG, Z = %2.2fG.",
-                                            reading.getAccelerometer().getReading().x,
-                                            reading.getAccelerometer().getReading().y,
-                                            reading.getAccelerometer().getReading().z));
+
+                csvFileWriter.addConcussionEvent(p, concussionSeverity);
             }
         }
         if(concussionChart != null) {
@@ -107,8 +98,6 @@ public class HeadGearActivity extends DeviceActivity {
     }
     public void createConcussionChart(View rootView) {
         LineChart chart = (LineChart) rootView.findViewById(R.id.line_chart);
-        accelerationDetails = (TextView) rootView.findViewById(R.id.textViewAcceleration);
-        xyzAccelerationDetails = (TextView) rootView.findViewById(R.id.xyzAcceleration);
         concussionChart = new SampleChart(chart, this);
         concussionChart.onCreate();
     }

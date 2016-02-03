@@ -162,7 +162,7 @@ public class DeviceActivityBroadcastReceiver extends BroadcastReceiver {
                     List<BluetoothGattCharacteristic> chars = s.getCharacteristics();
                     totalCharacteristics += chars.size();
                 }
-                deviceActivity.mqttProfile = new AzureIoTCloudProfile(context, deviceActivity.mBluetoothDevice, null, deviceActivity.mBtLeService);
+                //deviceActivity.mqttProfile = new AzureIoTCloudProfile(context, deviceActivity.mBluetoothDevice, null, deviceActivity.mBtLeService);
                 //deviceActivity.mProfiles.add(deviceActivity.mqttProfile);
                 if (totalCharacteristics == 0) {
                     deviceActivity.runOnUiThread(new Runnable() {
